@@ -3,6 +3,7 @@ import doctorimg from '../../assets/images/doctor-img02.png';
 import starIcon from '../../assets/images/star.png';
 import DoctorAbout from './DoctorAbout';
 import FeedBack from './FeedBack';
+import SidePanel from './SidePanel';
 
 const DoctorDetails = () => {
   const [tab, setTab] = useState('about'); // Corrected the typo here
@@ -43,7 +44,9 @@ const DoctorDetails = () => {
               {tab === 'about'  && <DoctorAbout />}
               {tab === 'feedback'  && <FeedBack />}
             </div>
-
+          </div>
+          <div>
+            <SidePanel/>
           </div>
         </div>
       </div>
