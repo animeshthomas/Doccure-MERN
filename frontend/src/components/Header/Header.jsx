@@ -80,7 +80,7 @@ const Header = () => {
 
           {/* =================== nav right ==================== */}
           <div className="flex items-center gap-4">
-            {token && user ? (
+                     {token && user ? (
               <div>
                 <Link 
                   to={`${
