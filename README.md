@@ -18,4 +18,5 @@ Doccure is a comprehensive Doctor Booking System built with the MERN stack (Mong
 - **Payment Integration**: Stripe
 - **Styling**: Tailwind CSS
 
-## works goin on
+#### Works are going on!!
+## Quries at animeshthomas262@gmail.com
