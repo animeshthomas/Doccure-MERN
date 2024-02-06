@@ -1,9 +1,30 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import userImg from '../../assets/images/doctor-img01.png';
-import { authContext } from '../../context/AuthContext.jsx'; // Replace with the correct path
+import { authContext } from '../../context/AuthContext.jsx'; 
+import axios from 'axios';
+import { BASE_URL } from '../../config.js';
 
 const Dashboard = () => {
   const { user, token, role, dispatch } = useContext(authContext);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(BASE_URL+'/doctors/profile/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch user data', error);
+        // Handle error, e.g., redirect to login page
+      }
+    };
+
+    fetchData();
+  }, [token]); // Ensure to include token as a dependency to re-run the effect when it changes
 
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });
@@ -22,11 +43,9 @@ const Dashboard = () => {
           </div>
 
           <div className='text-center'>
-            <h3 className='text-3xl font-bold text-headingColor'>Muhibur Rahman</h3>
-            <p className='text-gray-600 text-lg font-medium'>example@gmail.com</p>
-            <p className='text-gray-600 text-lg font-medium'>
-              Blood Type: <span className='text-headingColor'>O-</span>
-            </p>
+            <h3 className='text-3xl font-bold text-headingColor'>{userData?.name}</h3>
+            <p className='text-gray-600 text-lg font-medium'>{userData?.email}</p>
+            {/* Display other user profile information here */}
           </div>
 
           <div className='space-y-6'>
