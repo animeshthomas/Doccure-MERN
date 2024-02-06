@@ -83,7 +83,12 @@ export const login = async(req, res) => {
         const doctor = await Doctor.findOne({email})
 
         if(patient){
-            user = patient
+           if(patient.role = 'patient'){
+                user = patient
+           }else if(patient.role='admin')
+           {
+                user = admin
+           }
         }
         if(doctor){
             user = doctor
