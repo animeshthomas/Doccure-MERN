@@ -64,7 +64,7 @@ const Dashboard = () => {
                       <div className='flex items-center gap-[6px]'>
                         <span className='flex items-center gap-[6px] text-headingColor text-[14px] leading-5 lg:text-[16px] lg-leading-6 font-semibold'>
                           <img src={starIcon} alt="" />
-                          {data.avarageRating}
+                          {data.averageRating} 
                         </span>
                         <span className='text-textColor text-[14px]
                       leading-5 lg:text-[16px] lg-leading-6 font-semibold'>
