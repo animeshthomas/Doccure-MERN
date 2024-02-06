@@ -25,7 +25,7 @@ const Profile = (user) => {
     setFormData({
       name: user.user.name,
       email: user.user.email,
-      password: user.user.password,
+      // password: user.user.password,
       photo: user.user.photo,
       gender: user.user.gender,
       bloodType: user.user.bloodType      
@@ -120,7 +120,7 @@ const Profile = (user) => {
             required
           />
         </div>
-        <div className="mb-5">
+        {/* <div className="mb-5">
           <input
             type="password"
             placeholder="Password"
@@ -132,7 +132,7 @@ const Profile = (user) => {
                   text-headingColor placeholder:text-textColor cursor-pointer"
          
           />
-        </div>
+        </div> */}
 
         <div className="mb-5 flex items-center justify-between">
           <label className="text-headingColor font-bold text-[16px] leading-7">
