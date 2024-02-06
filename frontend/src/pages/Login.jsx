@@ -22,44 +22,52 @@ const Login = () => {
   }
 
   const submitHandler = async event => {
-    event.preventDefault()
-    setLoading(true)
-
+    event.preventDefault();
+    setLoading(true);
+  
     try {
       const res = await fetch(`${BASE_URL}/auth/login`, {
-        method:'post',
-        headers:{
-          'Content-Type':'application/json'
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
-      })
-
-      const result = await res.json()
-
-      if(!res.ok){
-        throw new Error (result.message)
+      });
+  
+      const result = await res.json();
+  
+      if (!res.ok) {
+        throw new Error(result.message);
       }
-
+  
       dispatch({
-        type:'LOGIN_SUCCESS',
-        payload:{
+        type: 'LOGIN_SUCCESS',
+        payload: {
           user: result.data,
           token: result.token,
           role: result.role,
         }
-      })
-
-      console.log(result, "login data")
-
-      setLoading(false)
-      toast.success(result.message)
-      navigate('/home')
-
+      });
+  
+      console.log(result, "login data");
+  
+      setLoading(false);
+      toast.success(result.message);
+  
+      if (formData.email === "admin@gmail.com" && formData.password === "123") {
+        // Navigate to the admin dashboard
+        navigate('/admin-dashboard');
+      } else {
+        // Navigate to the user dashboard
+        navigate('/home');
+      }
+  
     } catch (err) {
-      toast.error(err.message)
-      setLoading(false)
+      toast.error(err.message);
+      setLoading(false);
     }
   }
+  
 
   return (
     <section className="px-5 lg:px-0">
