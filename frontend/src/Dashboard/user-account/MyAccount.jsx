@@ -10,6 +10,7 @@ import { BASE_URL } from '../../config'
 
 import Loading from '../../components/Loader/Loading'
 import Error from '../../components/Error/Error'
+import { toast } from 'react-toastify'
 
 const MyAccount = () => {
 
@@ -26,6 +27,7 @@ const MyAccount = () => {
 
   const handleLogout = () => {
     dispatch({type: 'LOGOUT'})
+    toast.success('Logged out successfully')
   }
 
 
