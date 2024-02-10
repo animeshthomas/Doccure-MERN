@@ -1,54 +1,56 @@
-import React, { useState, useContext } from 'react';
-import { AiFillStar } from 'react-icons/ai';
-import { authContext } from '../../context/AuthContext';
-import { toast } from 'react-toastify';
+import React, { useState } from 'react'
+import { AiFillStar } from 'react-icons/ai'
+import { useParams } from 'react-router-dom'
+import { BASE_URL, token } from '../../config'
+import useFetchData from '../../hooks/useFetchData'
+import { formateDate } from '../../utils/formateDate'
+import { toast } from 'react-toastify'
+import HashLoader from 'react-spinners/HashLoader'
 
 const FeedbackForm = () => {
-  const { token } = useContext(authContext);
 
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
-  const [reviewText, setReviewText] = useState('');
+  const [rating, setRating] = useState(0)
+  const [hover, setHover] = useState(0)
+  const [reviewText, setReviewText] = useState("")
+  const [loading, setLoading] = useState(false)
+  const { id } = useParams()
 
-  const handleSubmitReview = async (e) => {
-    e.preventDefault();
-
+  const handleSubmitReview = async e => {
+    e.preventDefault()
+    setLoading(true)
+  
     try {
-      const response = await fetch('http://localhost:500/api/v1/reviews/', {
-        method: 'POST',
+      if (!rating || !reviewText) {
+        toast.error("Please rate and write a review")
+        setLoading(false) 
+        return; //
+      }
+  
+      const res = await fetch(BASE_URL + `/doctors/${id}/reviews`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`  
         },
-        body: JSON.stringify({
-          rating: rating,
-          reviewText: reviewText,
-        }),
-      });
-
-      if (response.ok) {
-        // Feedback submission was successful
-        toast.success('Feedback submitted successfully');
-
-        // Reset the form fields
-        setRating(0);
-        setReviewText('');
-
-        // You may want to reset the hover state as well if needed
-        setHover(0);
-        window.location.reload();
+        body: JSON.stringify({ rating, reviewText })
+      })
+      const result = await res.json()
+      if (res.ok) {
+        toast.success("Review submitted successfully")
+        setLoading(false)
       } else {
-        // Handle the case where the server returns an error
-        console.error('Error submitting feedback');
+        throw new Error(result.message)
       }
     } catch (error) {
-      // Handle any network-related errors
-      toast.error('Network error:', error);
+      toast.error(error.message)
+      setLoading(false) // Added setLoading(false) here to stop loading state in case of error
     }
-  };
+  }
+  
+
 
   return (
-    <form>
+    <form action="">
       <div>
         <h3 className="text-headingColor text-[16px] leading-6 font-semibold mb-4 mt-0">
           How would you rate the overall experience?
@@ -62,11 +64,10 @@ const FeedbackForm = () => {
               <button
                 key={index}
                 type="button"
-                className={`${
-                  index <= ((rating && hover) || hover)
+                className={`${index <= ((rating && hover) || hover)
                     ? 'text-yellowColor'
                     : 'text-gray-400'
-                } bg-transparent border-none outline-none text-[22px] cursor-pointer `}
+                  } bg-transparent border-none outline-none text-[22px] cursor-pointer `}
                 onClick={() => setRating(index)}
                 onMouseEnter={() => setHover(index)}
                 onMouseLeave={() => setHover(rating)}
@@ -79,34 +80,30 @@ const FeedbackForm = () => {
                   <AiFillStar />
                 </span>
               </button>
-            );
+            )
           })}
         </div>
       </div>
+
 
       <div className="mt-[30px]">
         <h3 className="text-headingColor text-[16px] leading-6 font-semibold mb-4 mt-0">
           Share your feedback or suggestions
         </h3>
 
-        <textarea
-          className="border border-solid border-[#0066ff34] focus:outline outline-primaryColor w-full px-4 py-3 rounded-md"
+        <textarea className="border border-solid border-[#0066ff34] focus:outline outline-primaryColor
+            w-full px-4 py-3 rounded-md"
           rows="5"
           placeholder="Write your message"
-          value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
         ></textarea>
       </div>
 
-      <button
-        type="submit"
-        onClick={handleSubmitReview}
-        className="btn"
-      >
-        Submit Feedback
-      </button>
+      <button type="submit" onClick={handleSubmitReview} className="btn">
+        {loading ? <HashLoader size={25} color='#fff'/>:"Submit Feedback"}
+        </button>
     </form>
-  );
-};
+  )
+}
 
-export default FeedbackForm;
+export default FeedbackForm
