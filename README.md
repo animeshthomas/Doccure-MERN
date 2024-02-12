@@ -4,7 +4,7 @@ Welcome to Doccure, your ultimate destination for hassle-free doctor appointment
 
 ## Features 🚀
 
-- **User Authentication:** 🛡️ Enjoy a secure user authentication and authorization system.
+- **User Authentication:** 🔒 Enjoy a secure user authentication and authorization system.
 - **Doctor Listing:** 👩‍⚕️👨‍⚕️ Browse through a curated list of available doctors with detailed profiles.
 - **Appointment Booking:** 📅 Schedule appointments with your preferred doctors at your convenience.
 - **Payment Integration:** 💳 Experience secure and convenient payment processing through the magic of Stripe.
@@ -32,7 +32,9 @@ Welcome to Doccure, your ultimate destination for hassle-free doctor appointment
 2. Navigate to the backend directory:
 
 3. Install backend dependencies:
-(npm i)
+   ```
+   npm install
+   ```
 
 4. Set up environment variables:
 - Create a `.env` file in the backend directory.
@@ -45,7 +47,9 @@ Welcome to Doccure, your ultimate destination for hassle-free doctor appointment
   ```
 
 5. Run the backend server:
-npm run start-dev
+   ```
+   npm run start-dev
+   ```
 
 6. Navigate to the frontend directory:
 
@@ -58,12 +62,14 @@ npm run start-dev
   ```
 
 9. Run the frontend server:
-npm run dev
+   ```
+   npm run dev
+   ```
 
 10. Access Doccure in your browser:
- ```
- http://localhost:3000
- ```
+    ```
+    http://localhost:3000
+    ```
 
 ## Questions or Suggestions? 🤔
 
