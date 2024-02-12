@@ -186,7 +186,7 @@ export const resetPassword = async (req, res) => {
     // Find user by reset token and check expiration
     const user = await User.findOne({
       resetPasswordToken: resetToken,
-      // resetPasswordExpires: { $gt: Date.now() }
+      resetPasswordExpires: { $gt: Date.now() }
     });
 
     if (!user) {
