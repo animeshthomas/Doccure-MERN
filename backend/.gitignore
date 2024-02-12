@@ -1,1 +1,35 @@
-backend\.env
+# Dependency directories
+node_modules/
+
+# Environment configuration files
+.env*
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Build artifacts
+dist/
+build/
+out/
+tmp/
+
+# Logs
+logs/
+*.log
+
+# Editor and IDE specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Dependency lock files
+package-lock.json
+yarn.lock
+
+# macOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
