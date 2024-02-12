@@ -1,48 +1,61 @@
-import React from 'react'
-import { formateDate } from '../../utils/formateDate'
+import React from 'react';
+import { formateDate } from '../../utils/formateDate';
 
 const Appointments = ({ appointments }) => {
-  return <table className='w-full text-left text-sm'>
-    <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
-      <tr>
-        <th scope='col' className='px-6 py-3'>Name</th>
-        <th scope='col' className='px-6 py-3'>Gender</th>
-        <th scope='col' className='px-6 py-3'>Payment</th>
-        <th scope='col' className='px-6 py-3'>Price</th>
-        <th scope='col' className='px-6 py-3'>Booked On</th>
-      </tr>
+  return (
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Name
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Gender
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Payment
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Price
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Booked On
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {appointments.map(item => (
+            <tr key={item._id}>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm font-medium text-gray-900">{item.user.name}</div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm text-gray-900">{item.user.gender}</div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {item.isPaid ? (
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Paid
+                  </span>
+                ) : (
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                    Unpaid
+                  </span>
+                )}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm text-gray-900">{item.ticketPrice}</div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm text-gray-900">{formateDate(item.createdAt)}</div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
-    </thead>
-    <tbody className=''>
-      {appointments.map(item => <tr key={item._id}>
-        <th scope='row' className='flex items-center px-6 py-4 text-gray-900 whitespace-nowrap'>
-          <div className="pl-3">
-            <div className="text-base font-semibold">{item.user.name}</div>
-            <div className="text-normal text-gray-500">{item.patient.email}</div>
-          </div>
-        </th>
-        <td className='px-6 py-4'>
-          {item.user.gender}
-        </td>
-        <td className='px-6 py-4'>
-          {item.isPaid && <div className='flex-items-center'>
-            <div className='h-2.5 w-2.5 rounded-full bg-green-500 mr-2'></div>
-            Paid
-          </div>}
-          {!item.isPaid && <div className='flex-items-center'>
-            <div className='h-2.5 w-2.5 rounded-full bg-red-500 mr-2'></div>
-            Unpaid
-          </div>}
-        </td>
-        <td className='px-6 py-4'>
-          {item.ticketPrice}
-        </td>
-        <td className='px-6 py-4'>
-          {formateDate(item.createdAt)}
-        </td>
-      </tr>)}
-    </tbody>
-  </table>
-}
-
-export default Appointments
+export default Appointments;

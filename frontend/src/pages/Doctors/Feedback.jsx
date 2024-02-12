@@ -4,6 +4,7 @@ import { AiFillStar } from "react-icons/ai";
 import FeedbackForm from "./FeedbackForm";
 
 const Feedback = ({ reviews, totalRating }) => {
+    console.log(reviews)
     const [showFeedbackForm, setShowFeedbackForm] = useState(false);
 
     return (
