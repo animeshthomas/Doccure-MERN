@@ -44,6 +44,9 @@ Welcome to Doccure, your ultimate destination for hassle-free doctor appointment
   DB_URL='mongodb+srv://<username>:<password>@<cluster_url>/<database_name>?retryWrites=true&w=majority'
   JWT_SECRET_KEY=<your_secret_key>
   STRIPE_SECRET_KEY=<your_stripe_secret_key>
+  CLIENT_SITE_URL='http://localhost:5173'
+  EMAIL_USER=<your_gmail_email_address>
+  EMAIL_PASS=<your_gmail_app_password>
   ```
 
 5. Run the backend server:
