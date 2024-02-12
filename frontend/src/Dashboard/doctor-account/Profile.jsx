@@ -3,6 +3,7 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import uploadImageToCloudinary from '../../utils/uploadCloudinary'
 import { BASE_URL, token } from "../../config"
 import { toast } from 'react-toastify'
+import HashLoader from 'react-spinners/HashLoader'
 
 const Profile = (doctorData) => {
     const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const Profile = (doctorData) => {
         about: "",
         photo: null
     })
-
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         setFormData({
             name: doctorData.doctorData?.name,
@@ -49,6 +50,7 @@ const Profile = (doctorData) => {
 
     const updateProfileHandler = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         if (!formData.name.trim()) {
             toast.error("Please enter your name.");
             return;
@@ -108,6 +110,8 @@ const Profile = (doctorData) => {
             toast.success(result.message);
         } catch (err) {
             toast.error(err.message);
+        } finally {
+            setIsLoading(false); 
         }
     };
 
@@ -465,12 +469,12 @@ const Profile = (doctorData) => {
                     </div>
                 </div>
                 <div className="mt-7">
-                    <button
-                        type="submit"
-                        className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
-                    >
-                        Update Profile
-                    </button>
+                     <button
+                    type="submit"
+                    className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
+                >
+                    {isLoading ? <HashLoader color="#ffffff" loading={isLoading} size={20} /> : 'Update Profile'}
+                </button>
 
                 </div>
             </form>

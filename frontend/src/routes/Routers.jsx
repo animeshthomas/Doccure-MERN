@@ -12,6 +12,8 @@ import Dashboard from '../Dashboard/doctor-account/Dashboard'
 import { Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 import CheckoutSuccess from '../pages/Doctors/CheckoutSuccess'
+import ForgotPassword from '../pages/forgotPassword'
+import ResetPassword from '../pages/ResetPassword'
 
 const Routers = () => {
   return <Routes>
@@ -23,6 +25,8 @@ const Routers = () => {
     <Route path="/register" element={<Signup/>} />
     <Route path="/contact" element={<Contact/>} />
     <Route path="/services" element={<Services/>} />
+    <Route path="/forgot-password" element={<ForgotPassword/>} />
+    <Route path="/reset-password/:resetToken" element={<ResetPassword/>} />
     <Route path="/checkout-success" element={<CheckoutSuccess/>} />
     <Route path="/users/profile/me" element={ <ProtectedRoute allowedRoles={['patient']}>
                                                 <MyAccount /> 
