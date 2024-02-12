@@ -14,14 +14,16 @@ const router = express.Router();
 
 router.get("/:id", authenticate, restrict(["patient"]), getSingleUser); // Protected route
 router.get("/", authenticate, restrict(["admin"]), getAllUser); // Public route
-router.put("/:id", authenticate, restrict(["patient"]), updateUser); // Protected route
+router.put("/:id", authenticate, restrict(["patient"]), updateUser); // Protectedhdsds route
 router.delete("/:id", authenticate, restrict(["patient"]), deleteUser); // Protected route
 router.get("/profile/me", authenticate, restrict(["patient"]), getUserProfile); // Protected route
+
 router.get(
-  'appointments/my-appointments', 
+  '/appointments/my-appointments', 
   authenticate, 
   restrict(["patient"]), 
   getMyAppointments
 );
+
 
 export default router;
