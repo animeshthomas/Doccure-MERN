@@ -1,35 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+import HashLoader from 'react-spinners/HashLoader';
 import convertTime from '../../utils/covertTime';
-import { BASE_URL,token } from '../../config';
+import { BASE_URL, token } from '../../config';
 import { toast } from 'react-toastify';
 
 const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
-    const bookingHandler = async () => {
-        try {
-            const response = await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`            
-            , {
-                method: 'post', 
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            const data = await response.json();
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Something went wrong');
-            }
-    
-            
-            if (data.session.url) {
-                window.location.href = data.session.url;
-            }
-        } catch (error) {
-            toast.error(error.message);
-            // console.error(error.message);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const bookingHandler = async () => {
+    try {
+      setIsLoading(true); // Set loading state to true
+      const response = await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`, {
+        method: 'post',
+        headers: {
+          Authorization: `Bearer ${token}`
         }
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Something went wrong');
+      }
+
+      if (data.session.url) {
+        window.location.href = data.session.url;
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false); // Set loading state back to false regardless of success or failure
     }
-    
-    
+  };
+
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
       <div className="flex items-center justify-between">
@@ -40,9 +42,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
       </div>
 
       <div className="mt-[30px]">
-        <p className="text__para mt-0 font-semibold text-headingColor">
-          Available Time Slots:
-        </p>
+        <p className="text__para mt-0 font-semibold text-headingColor">Available Time Slots:</p>
 
         <ul className="mt-3">
           {timeSlots?.map((item, index) => (
@@ -58,7 +58,13 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
         </ul>
       </div>
 
-      <button onClick={bookingHandler} className="btn px-2 w-full rounded-md">Book Appointment</button>
+      <button onClick={bookingHandler} className="btn px-2 w-full rounded-md">
+        {isLoading ? (
+          <HashLoader color="#ffffff" loading={isLoading} size={20} />
+        ) : (
+          'Book Appointment'
+        )}
+      </button>
     </div>
   );
 };
