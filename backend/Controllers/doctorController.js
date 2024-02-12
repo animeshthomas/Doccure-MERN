@@ -89,11 +89,11 @@ export const getAllDoctor = async (req, res) => {
           { name: { $regex: query, $options: "i" } },
           { specialization: { $regex: query, $options: "i" } },
         ],
-      }).select("-password");
+      }).select("-password").sort({ averageRating: -1 }); // Sort by averageRating descending
     } else {
       doctors = await Doctor.find({ isApproved: "approved" }).select(
         "-password"
-      ); // Use the Doctor model
+      ).sort({ averageRating: -1 }); // Sort by averageRating descending
     }
 
     res.status(200).json({
@@ -109,6 +109,7 @@ export const getAllDoctor = async (req, res) => {
     });
   }
 };
+
 
 export const getDoctorProfile = async (req, res) => {
   const userId = req.userId;
