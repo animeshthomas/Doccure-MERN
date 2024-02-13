@@ -18,12 +18,33 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
 
       const selectedDayTimeSlots = timeSlots.filter(slot => slot.day.toLowerCase() === formattedSelectedDate);
       setAvailableTimesForSelectedDate(selectedDayTimeSlots);
-      setSelectedTime(''); 
+      setSelectedTime('');
     }
   }, [selectedDate, timeSlots]);
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+
+    // Add leading zeros to single-digit months and days
+    if (month < 10) {
+      month = '0' + month;
+    }
+    if (day < 10) {
+      day = '0' + day;
+    }
+
+    return `${year}-${month}-${day}`;
+  };
+
 
   const bookingHandler = async () => {
     try {
+      if (!selectedDate || !selectedTime) {
+        throw new Error('Please select both appointment date and time');
+      }
+
       setIsLoading(true);
       const response = await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`, {
         method: 'post',
@@ -50,6 +71,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
       setIsLoading(false);
     }
   };
+
 
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
@@ -86,8 +108,10 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
           id="appointmentDate"
           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2"
           value={selectedDate}
+          min={getCurrentDate()}
           onChange={(e) => setSelectedDate(e.target.value)}
         />
+
       </div>
 
       {availableTimesForSelectedDate.length > 0 && (
