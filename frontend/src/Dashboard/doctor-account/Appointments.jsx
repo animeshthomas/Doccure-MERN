@@ -1,5 +1,6 @@
 import React from 'react';
 import { formateDate } from '../../utils/formateDate';
+import convertTime from '../../utils/covertTime';
 
 const Appointments = ({ appointments }) => {
   return (
@@ -21,6 +22,12 @@ const Appointments = ({ appointments }) => {
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Booked On
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Appointment Date
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Appointment Time
             </th>
           </tr>
         </thead>
@@ -49,6 +56,12 @@ const Appointments = ({ appointments }) => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-900">{formateDate(item.createdAt)}</div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">    
+                <div className="text-sm text-gray-900">{formateDate(item.appointmentDate)}</div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm text-gray-900">{convertTime(item.appointmentTime)}</div>
               </td>
             </tr>
           ))}

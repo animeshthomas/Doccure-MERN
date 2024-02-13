@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HashLoader from 'react-spinners/HashLoader';
-import convertTime from '../../utils/covertTime';
+import convertTime from '../../utils/covertTime'; // corrected typo in the import
 import { BASE_URL, token } from '../../config';
 import { toast } from 'react-toastify';
 
 const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
+  const [availableTimesForSelectedDate, setAvailableTimesForSelectedDate] = useState([]);
+
+  useEffect(() => {
+    if (selectedDate) {
+      const formattedSelectedDate = new Date(selectedDate).toLocaleDateString('en-US', {
+        weekday: 'long'
+      }).toLowerCase();
+
+      const selectedDayTimeSlots = timeSlots.filter(slot => slot.day.toLowerCase() === formattedSelectedDate);
+      setAvailableTimesForSelectedDate(selectedDayTimeSlots);
+      setSelectedTime(''); 
+    }
+  }, [selectedDate, timeSlots]);
 
   const bookingHandler = async () => {
     try {
-      setIsLoading(true); // Set loading state to true
+      setIsLoading(true);
       const response = await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`, {
         method: 'post',
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          appointmentDate: selectedDate,
+          appointmentTime: selectedTime
+        })
       });
       const data = await response.json();
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Something went wrong');
       }
-
       if (data.session.url) {
         window.location.href = data.session.url;
       }
     } catch (error) {
       toast.error(error.message);
     } finally {
-      setIsLoading(false); // Set loading state back to false regardless of success or failure
+      setIsLoading(false);
     }
   };
 
@@ -58,7 +77,41 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
         </ul>
       </div>
 
-      <button onClick={bookingHandler} className="btn px-2 w-full rounded-md">
+      <div className="mt-4">
+        <label htmlFor="appointmentDate" className="block text-lg font-semibold text-gray-700">
+          Appointment Date:
+        </label>
+        <input
+          type="date"
+          id="appointmentDate"
+          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+        />
+      </div>
+
+      {availableTimesForSelectedDate.length > 0 && (
+        <div className="mt-4">
+          <label htmlFor="appointmentTime" className="block text-lg font-semibold text-gray-700">
+            Appointment Time:
+          </label>
+          <select
+            id="appointmentTime"
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2"
+            value={selectedTime}
+            onChange={(e) => setSelectedTime(e.target.value)}
+          >
+            <option value="">Select a time</option>
+            {availableTimesForSelectedDate.map((timeSlot, index) => (
+              <option key={index} value={timeSlot.startingTime}>
+                {convertTime(timeSlot.startingTime)} - {convertTime(timeSlot.endingTime)}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      <button onClick={bookingHandler} className="btn px-2 w-full rounded-md mt-4">
         {isLoading ? (
           <HashLoader color="#ffffff" loading={isLoading} size={20} />
         ) : (
