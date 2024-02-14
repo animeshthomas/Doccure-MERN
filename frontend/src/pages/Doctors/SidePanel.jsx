@@ -134,7 +134,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
           </select>
         </div>
       )}
-
+      
       <button onClick={bookingHandler} className="btn px-2 w-full rounded-md mt-4">
         {isLoading ? (
           <HashLoader color="#ffffff" loading={isLoading} size={20} />
