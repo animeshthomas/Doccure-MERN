@@ -3,6 +3,7 @@ import Doctor from '../models/DoctorSchema.js';
 import Booking from '../models/BookingSchema.js';
 import Stripe from 'stripe';
 import { sendEmail } from '../Services/emailService.js';
+import { bookingSuccessEmailDoctor, bookingSuccessEmailUser } from '../emailContents/mailContents.js';
 
 export const getCheckoutSession = async (req, res) => {
     try {
@@ -53,18 +54,18 @@ export const getCheckoutSession = async (req, res) => {
         // Save the booking to the database
         await booking.save();
 
-        // // Send emails to the doctor and the user
-        // await sendEmail({
-        //     to: doctor.email,
-        //     subject: 'New Booking Notification',
-        //     html: `Hello ${doctor.name}, You have a new booking from ${user.name}.`
-        // });
+        // Send emails to the doctor and the user
+        await sendEmail({
+            to: doctor.email,
+            subject: 'New Booking Notification',
+            html: bookingSuccessEmailDoctor(doctor.name, user.name, appointmentDate, appointmentTime)
+        });
 
-        // await sendEmail({
-        //     to: user.email,
-        //     subject: 'Booking Confirmation',
-        //     html: `Hello ${user.name}, Your booking with ${doctor.name} has been confirmed.`
-        // });
+        await sendEmail({
+            to: user.email,
+            subject: 'Booking Confirmation',
+            html: bookingSuccessEmailUser(doctor.name, user.name, appointmentDate, appointmentTime)
+        });
 
         // Respond with success message and session data
         res.status(200).json({ success: true, message: 'Successfully Paid', session });
