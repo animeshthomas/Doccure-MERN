@@ -32,24 +32,34 @@ export const authenticate = async (req, res, next) => {
 export const restrict = (roles) => async (req, res, next) => {
   const userId = req.userId;
 
-  let user;
+  try {
+    let user;
 
-  const patient = await User.findById(userId);
+    const patient = await User.findById(userId);
+    const doctor = await Doctor.findById(userId);
 
-  const doctor = await Doctor.findById(userId);
+    if (patient) {
+      user = patient;
+    } else if (doctor) {
+      user = doctor;
+    } else {
+      return res
+        .status(401)
+        .json({ success: false, message: "User not found" });
+    }
 
-  if (patient) {
-    user = patient;
-  }
-  if (doctor) {
-    user = doctor;
-  }
+    if (!roles.includes(user.role)) {
+      return res
+        .status(401)
+        .json({ success: false, message: "You're not authorized" });
+    }
 
-  if (!roles.includes(user.role)) {
+    next();
+  } catch (error) {
+    console.error("Error in restrict middleware:", error);
     return res
-      .status(401)
-      .json({ success: false, message: "You're not authorized" });
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
-
-  next();
 };
+

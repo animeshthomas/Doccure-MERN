@@ -8,6 +8,7 @@ import bookingRoute from "./Routes/booking.js"
 import userRoute from "./Routes/user.js"
 import doctorRoute from "./Routes/doctor.js"
 import reviewRoute from "./Routes/review.js"
+import chatRoute from "./Routes/message.js"
 
 
 
@@ -51,6 +52,7 @@ app.use('/api/v1/users', userRoute)
 app.use('/api/v1/doctors', doctorRoute)
 app.use('/api/v1/reviews', reviewRoute) 
 app.use('/api/v1/bookings', bookingRoute) 
+app.use('/api/v1/chat', chatRoute) 
 
 
 
