@@ -6,7 +6,7 @@ import Doctor from "../models/DoctorSchema.js";
 export const sendMessageToDoctor = async (req, res) => {
   try {
     const { doctorId, message } = req.body;
-    const userId = '65ca0aba1e191b66baf01d95'
+    const userId = req.user.id;
 
     const senderUser = await User.findById(userId);
     const receiverDoctor = await Doctor.findById(doctorId);
@@ -35,7 +35,7 @@ export const sendMessageToDoctor = async (req, res) => {
 export const sendMessageToUser = async (req, res) => {
   try {
     const { userId, message } = req.body;
-    const doctorId = '65c1f61da1c328455c4c4454'
+    const doctorId = req.user.id;
 
     const senderDoctor = await Doctor.findById(doctorId);
     const receiverUser = await User.findById(userId);
