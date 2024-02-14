@@ -71,7 +71,7 @@ Welcome to Doccure, your ultimate destination for hassle-free doctor appointment
 
 10. Access Doccure in your browser:
     ```
-    http://localhost:3000
+    http://localhost:5173
     ```
 
 ## Questions or Suggestions? 🤔
