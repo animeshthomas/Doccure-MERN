@@ -212,3 +212,46 @@ export const resetPassword = async (req, res) => {
     });
   }
 };
+
+export const sendQueryToDoctor = async (req, res) => {
+  try {
+    const { senderId, doctorEmail, message } = req.body;
+    const sender = await User.findById(senderId);
+    if (!sender) {
+      return res.status(404).json({
+        success: false,
+        message: "Sender not found",
+      });
+    }
+    // Find the doctor by email
+    const doctor = await Doctor.findOne({ email: doctorEmail });
+    if (!doctor) {
+      return res.status(404).json({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
+
+    // Construct email options
+    const options = {
+      to: doctorEmail,
+      subject: `Query from ${sender.email}, Team Doccure`,
+      text: message
+    };
+
+    // Send the email
+    await sendEmail(options);
+
+    return res.status(200).json({
+      success: true,
+      message: "Query sent successfully",
+    });
+  } catch (error) {
+    console.error('Error sending query:', error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send query",
+      error: error.message,
+    });
+  }
+};

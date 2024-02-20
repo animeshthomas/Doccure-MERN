@@ -7,7 +7,8 @@ import {
   getUserProfile,
   getMyAppointments,
   resetPassword,
-  forgotPassword
+  forgotPassword,
+  sendQueryToDoctor
 } from "../Controllers/userController.js";
 
 import { authenticate, restrict } from "../auth/verifyToken.js";
@@ -21,6 +22,7 @@ router.delete("/:id", authenticate, restrict(["patient"]), deleteUser); // Prote
 router.post('/reset-password', resetPassword);
 router.post('/forgot-password', forgotPassword);
 router.get("/profile/me", authenticate, restrict(["patient"]), getUserProfile); // Protected route
+router.post('/send-query-to-doctor', sendQueryToDoctor);
 
 router.get(
   '/appointments/my-appointments', 
