@@ -9,6 +9,7 @@ import Loader from '../../components/Loader/Loading'
 import Error from '../../components/Error/Error'
 import { BASE_URL } from '../../config'
 import { useParams } from 'react-router-dom'
+import AskQuries from './AskQuries'
 
 const DoctorsDetails = () => {
   const [tab, setTab] = useState('about')
@@ -27,7 +28,8 @@ const DoctorsDetails = () => {
     totalRating,
     specialization,
     ticketPrice,
-    photo
+    photo,
+    email
   } = doctor;
 
   return (
@@ -75,6 +77,12 @@ const DoctorsDetails = () => {
               >
                 About
               </button>
+              <button
+                onClick={() => setTab('quries')}
+                className={`${tab === 'quries' && 'border-b border-solid border-primaryColor'} py-2 px-5 mr-5 text-[16px] leading-7 text-headingColor font-semibold`}
+              >
+                Ask Quries?
+              </button>
 
               <button
                 onClick={() => setTab('feedback')}
@@ -90,6 +98,9 @@ const DoctorsDetails = () => {
               }
               {
                 tab === 'feedback' && <Feedback reviews={reviews} totalRating={totalRating} />
+              }
+              {
+                tab === 'quries' && <AskQuries doctorEmail={email} />
               }
             </div>
 
