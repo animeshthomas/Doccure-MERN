@@ -18,6 +18,16 @@ export const getCheckoutSession = async (req, res) => {
         const { appointmentDate, appointmentTime } = req.body;
 
         // Create a checkout session with Stripe
+        const currency = 'inr'; // Set currency to INR
+
+        // Determine allowed countries based on the currency
+        let allowedCountries = ['IN']; // Default to India
+        if (currency !== 'inr') {
+            // For non-INR currencies, allow shipping addresses from any country
+            allowedCountries = ['*'];
+        }
+
+        // Create the Checkout Session with the appropriate configuration
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -28,7 +38,7 @@ export const getCheckoutSession = async (req, res) => {
             line_items: [
                 {
                     price_data: {
-                        currency: 'bdt',
+                        currency: currency,
                         unit_amount: doctor.ticketPrice * 100,
                         product_data: {
                             name: doctor.name,
@@ -39,7 +49,12 @@ export const getCheckoutSession = async (req, res) => {
                     quantity: 1
                 }
             ],
+            shipping_address_collection: {
+                allowed_countries: allowedCountries, // Set allowed countries based on currency
+            },
+            billing_address_collection: 'auto', // Collect billing address automatically
         });
+
 
         // Create a new booking with appointmentDate and appointmentTime
         const booking = new Booking({
