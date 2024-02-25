@@ -84,7 +84,7 @@ const Header = () => {
                   }>
                   {role === "admin" ? (
                     <img
-                      src="https://as2.ftcdn.net/v2/jpg/04/75/00/99/1000_F_475009987_zwsk4c77x3cTpcI3W1C1LU4pOSyPKaqi.jpg"
+                      src="https://is1-ssl.mzstatic.com/image/thumb/Purple115/v4/52/ea/25/52ea2517-c18e-a869-c8e0-f559fb31c4c2/source/512x512bb.jpg"
                       className="w-[35px] h-[35px] rounded-full cursor-pointer"
                       alt="Admin Icon"
                     />

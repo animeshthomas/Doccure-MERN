@@ -22,7 +22,7 @@ const AdminProfile = () => {
                     <div className="pb-[50px] px-[30px] rounded-md">
                         <div className="flex items-center justify-center">
                             <figure className='w-[100px] h-[100px] rounded-full border-2 border-solid border-primaryColor'>
-                                <img src="https://as2.ftcdn.net/v2/jpg/04/75/00/99/1000_F_475009987_zwsk4c77x3cTpcI3W1C1LU4pOSyPKaqi.jpg" alt="" className='w-full h-full rounded-full' />
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple115/v4/52/ea/25/52ea2517-c18e-a869-c8e0-f559fb31c4c2/source/512x512bb.jpg" alt="" className='w-full h-full rounded-full' />
                             </figure>
                         </div>
 
