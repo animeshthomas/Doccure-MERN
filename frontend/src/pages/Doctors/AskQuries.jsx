@@ -7,15 +7,15 @@ import { toast } from 'react-toastify';
 const AskQuries = ({ doctorEmail }) => {
   const [query, setQuery] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const userId = localStorage.getItem('userId');
+  console.log("userId",userId)
   const handleQuerySubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
       // Send the query to the backend
       await axios.post(`${BASE_URL}/users/send-query-to-doctor`, {
-        senderId: '65c20284a9a7129768a3e709', 
+        senderId: userId, 
         doctorEmail,
         message: query
       });

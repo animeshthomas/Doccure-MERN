@@ -24,7 +24,7 @@ const Login = () => {
   const submitHandler = async event => {
     event.preventDefault();
     setLoading(true);
-  
+
     // Check if email is admin and password is 123
     if (formData.email === 'admin@gmail.com' && formData.password === '1234') {
       navigate('/home');
@@ -35,12 +35,13 @@ const Login = () => {
           user: 'Admin Medicare',
           token: 'admToken',
           role: 'admin',
+          userid:'0'
         }
       });
       toast.success('Welcome Medicare Admin!');
       return;
     }
-    else{
+    else {
       try {
         const res = await fetch(`${BASE_URL}/auth/login`, {
           method: 'post',
@@ -49,13 +50,13 @@ const Login = () => {
           },
           body: JSON.stringify(formData)
         });
-    
+
         const result = await res.json();
-    
+
         if (!res.ok) {
           throw new Error(result.message);
         }
-    
+
         dispatch({
           type: 'LOGIN_SUCCESS',
           payload: {
@@ -64,19 +65,21 @@ const Login = () => {
             role: result.role,
           }
         });
-    
+        console.log("userid"+result.userId)
+        localStorage.setItem('userId', result.userId);
+
         setLoading(false);
         toast.success(result.message);
         navigate('/home');
-    
+
       } catch (err) {
         toast.error(err.message);
         setLoading(false);
       }
     }
-  
+
   }
-  
+
 
 
   return (

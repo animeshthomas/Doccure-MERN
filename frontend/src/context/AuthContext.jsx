@@ -58,6 +58,7 @@ export const AuthContextProvider = ({ children }) => {
                 user: state.user,
                 token: state.token,
                 role: state.role,
+                userid: state.userid,
                 dispatch
             }}
         >
