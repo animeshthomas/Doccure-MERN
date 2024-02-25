@@ -27,8 +27,8 @@ const Header = () => {
   const headerRef = useRef(null);
   const menuRef = useRef(null);
   const { user, role, token } = useContext(authContext);
-  console.log(token)
-  console.log(role)
+  console.log(localStorage.getItem('token'));
+  console.log(localStorage.getItem('userid'));
   const handleStickyHeader = () => {
     window.addEventListener('scroll', () => {
       if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {

@@ -3,7 +3,7 @@ import Booking from "../models/BookingSchema.js";
 import Doctor from "../models/DoctorSchema.js";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
-import { passwordResetEmail } from '../emailContents/mailContents.js';
+import { passwordResetEmail,userQueryEmail } from '../emailContents/mailContents.js';
 import { sendEmail } from "../Services/emailService.js";
 
 export const updateUser = async (req, res) => {
@@ -251,7 +251,7 @@ export const sendQueryToDoctor = async (req, res) => {
     const options = {
       to: doctorEmail,
       subject: `Query from ${sender.email}, Team Doccure`,
-      text: message
+      html: userQueryEmail(sender.name, sender.email, message)
     };
 
     // Send the email
