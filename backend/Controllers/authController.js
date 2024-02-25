@@ -69,53 +69,57 @@ export const register = async (req, res) => {
   }
 };
 
-// login controller
-export const login = async(req, res) => {
+export const login = async (req, res) => {
 
-    const { 
-        email
-    } = req.body
+  const { 
+      email
+  } = req.body
 
-    try {
-        
-        let user = null
-        const patient = await User.findOne({email})
-        const doctor = await Doctor.findOne({email})
+  try {
+      
+      let user = null
+      const patient = await User.findOne({email})
+      const doctor = await Doctor.findOne({email})
 
-        if(patient){
-           if(patient.role = 'patient'){
-                user = patient
-           }else if(patient.role='admin')
-           {
-                user = admin
-           }
-        }
-        if(doctor){
-            user = doctor
-        }
+      if (patient) {
+          if (patient.role === 'patient') {
+              user = patient
+          } else if (patient.role === 'admin') {
+              user = admin
+          }
+      }
+      if (doctor) {
+          user = doctor
+      }
 
-        // check if user exist or not
-        if(!user){
-            return res.status(404).json({ message: 'User Not Found' })
-        }
+      // check if user exist or not
+      if (!user) {
+          return res.status(404).json({ message: 'User Not Found' })
+      }
 
-        // compare password
-        const isPasswordMatch = await bcrypt.compare(req.body.password, user.password)
+      // compare password
+      const isPasswordMatch = await bcrypt.compare(req.body.password, user.password)
 
-        if(!isPasswordMatch){
-            return res.status(400).json({ status: false, message: 'Invalid Credentials' });
-        }
+      if (!isPasswordMatch) {
+          return res.status(400).json({ status: false, message: 'Invalid Credentials' });
+      }
 
-        // get token
-        const token = generateToken(user);
-        const { password, role, appointments, ...rest } = user._doc
+      // get token
+      const token = generateToken(user);
+      const { password, role, appointments, ...rest } = user._doc;
+      const userId = rest._id.toString(); // Convert ObjectId to string
 
-        res
-            .status(200)
-            .json({status: true, message: 'Successfully Login', token, data:{...rest}, role});
+      console.log("User ID:", userId); // Debug statement
 
-    } catch (error) {
-        res.status(500).json({ status: false, message: 'Failed To Login' });
-    }
+      res
+          .status(200)
+          .json({ status: true, message: 'Successfully Login', token, data: { ...rest }, role, userId });
+
+  } catch (error) {
+      console.error("Error:", error); // Debug statement
+      res.status(500).json({ status: false, message: 'Failed To Login' });
   }
+}
+
+
 
