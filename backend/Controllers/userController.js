@@ -2,6 +2,8 @@ import User from "../models/UserSchema.js";
 import Booking from "../models/BookingSchema.js";
 import Doctor from "../models/DoctorSchema.js";
 import crypto from "crypto";
+import bcrypt from "bcrypt";
+import { passwordResetEmail } from '../emailContents/mailContents.js';
 import { sendEmail } from "../Services/emailService.js";
 
 export const updateUser = async (req, res) => {
@@ -174,7 +176,7 @@ export const forgotPassword = async (req, res) => {
     await sendEmail({
       to: user.email,
       subject: 'Password Reset Instructions',
-      html: `To reset your password, please click on the following link: ${resetURL}`
+      html: passwordResetEmail(user.name, resetURL)
     });
     res.status(200).json({
       success: true,
@@ -205,9 +207,12 @@ export const resetPassword = async (req, res) => {
         message: "Password reset token is invalid or has expired.",
       });
     }
-
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(newPassword, salt);
     // Update user's password
-    user.password = newPassword;
+    user.password = hashPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
     await user.save();
 
     res.status(200).json({

@@ -111,4 +111,60 @@ function bookingSuccessEmailUser(doctorname, patientname, date, time) {
     `;
 }
 
-export { bookingSuccessEmailDoctor, bookingSuccessEmailUser };
+function passwordResetEmail(name, resetLink) {
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        p {
+            color: #666;
+        }
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+        }
+    </style>
+    </head>
+    <body>
+    <div class="container">
+        <h1>Password Reset</h1>
+        <p>Hello ${name},</p>
+        <p>We received a request to reset your password. Click the button below to reset your password:</p>
+        <a href="${resetLink}" class="button">Reset Password</a>
+        <p>If you didn't request a password reset, you can safely ignore this email.</p>
+        <p>Thank you,</p>
+        <p>Team Doccure</p>
+    </div>
+    </body>
+    </html>
+    `;
+}
+
+
+export { bookingSuccessEmailDoctor, bookingSuccessEmailUser, passwordResetEmail};

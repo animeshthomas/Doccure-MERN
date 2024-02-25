@@ -4,7 +4,6 @@ import Booking from '../models/BookingSchema.js';
 import Stripe from 'stripe';
 import { sendEmail } from '../Services/emailService.js';
 import { bookingSuccessEmailDoctor, bookingSuccessEmailUser } from '../emailContents/mailContents.js';
-
 export const getCheckoutSession = async (req, res) => {
     try {
         // Retrieve doctor and user information
@@ -17,17 +16,8 @@ export const getCheckoutSession = async (req, res) => {
         // Assuming appointmentDate and appointmentTime are passed in the request body
         const { appointmentDate, appointmentTime } = req.body;
 
-        // Create a checkout session with Stripe
-        const currency = 'inr'; // Set currency to INR
-
-        // Determine allowed countries based on the currency
-        let allowedCountries = ['IN']; // Default to India
-        if (currency !== 'inr') {
-            // For non-INR currencies, allow shipping addresses from any country
-            allowedCountries = ['*'];
-        }
-
-        // Create the Checkout Session with the appropriate configuration
+        
+        // Create the Checkout Session with the appropriate configuration for INR transactions
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -35,26 +25,23 @@ export const getCheckoutSession = async (req, res) => {
             cancel_url: `${req.protocol}://${req.get('host')}/doctors/${doctor.id}`,
             customer_email: user.email,
             client_reference_id: req.params.id,
-            line_items: [
-                {
-                    price_data: {
-                        currency: currency,
-                        unit_amount: doctor.ticketPrice * 100,
-                        product_data: {
-                            name: doctor.name,
-                            description: doctor.bio,
-                            images: [doctor.photo]
-                        },
+            line_items: [{
+                price_data: {
+                    currency: 'inr',
+                    unit_amount: doctor.ticketPrice * 100,
+                    product_data: {
+                        name: doctor.name,
+                        description: doctor.bio,
+                        images: [doctor.photo]
                     },
-                    quantity: 1
-                }
-            ],
+                },
+                quantity: 1
+            }],
             shipping_address_collection: {
-                allowed_countries: allowedCountries, // Set allowed countries based on currency
+                allowed_countries: ['IN'], // Set allowed countries to India only for INR transactions
             },
             billing_address_collection: 'auto', // Collect billing address automatically
         });
-
 
         // Create a new booking with appointmentDate and appointmentTime
         const booking = new Booking({
