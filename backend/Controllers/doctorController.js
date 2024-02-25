@@ -172,11 +172,11 @@ export const getDoctorProfile = async (req, res) => {
     }
 
     const { password, ...rest } = doctor._doc
-    const appointments = await Booking.find({ doctor: userId })
+    let appointments = await Booking.find({ doctor: userId }).sort({ createdAt: -1 }); // Sort appointments by createdAt field in descending order
     res.status(200).json({
       success: true,
       message: "Doctor Found",
-      data: { ...rest, appointments }, // Use doctor
+      data: { ...rest, appointments },
     });
 
 
@@ -188,6 +188,7 @@ export const getDoctorProfile = async (req, res) => {
     });
   }
 }
+
 
 export const searchDoctor = async (req, res) => {
   const { query } = req.query;

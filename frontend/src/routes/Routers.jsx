@@ -15,6 +15,7 @@ import CheckoutSuccess from '../pages/Doctors/CheckoutSuccess'
 import ForgotPassword from '../pages/forgotPassword'
 import ResetPassword from '../pages/ResetPassword'
 import AdminProfile from '../Dashboard/admin-account/AdminProfile'
+import ProvidePrescription from '../Dashboard/doctor-account/ProvidePrescription'
 
 
 const Routers = () => {
@@ -36,6 +37,10 @@ const Routers = () => {
                                             } />
     <Route path="/doctors/profile/me" element={ <ProtectedRoute allowedRoles={['doctor']}>
                                                   <Dashboard />
+                                                </ProtectedRoute>
+                                              } />
+    <Route path="/providePrescription/:userid" element={ <ProtectedRoute allowedRoles={['doctor']}>
+                                                  <ProvidePrescription />
                                                 </ProtectedRoute>
                                               } />
     <Route path="/admin/profile/me" element={ <ProtectedRoute allowedRoles={['admin']}>
