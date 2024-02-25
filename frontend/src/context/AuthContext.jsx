@@ -21,10 +21,13 @@ const authReducer = (state, action) => {
             }
 
         case "LOGIN_SUCCESS":
+            // Check if the user logging in is an admin
+            const isAdmin = action.payload.role === 'admin';
+
             return {
                 user: action.payload.user,
                 token: action.payload.token,
-                role: action.payload.role
+                role: isAdmin ? 'admin' : action.payload.role // Store 'admin' if user is admin
             }
 
         case 'LOGOUT':
@@ -38,6 +41,7 @@ const authReducer = (state, action) => {
             return state;
     }
 }
+
 
 export const AuthContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState)

@@ -4,7 +4,8 @@ import convertTime from '../../utils/covertTime'; // corrected typo in the impor
 import { BASE_URL, token } from '../../config';
 import { toast } from 'react-toastify';
 
-const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
+const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
+
   const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
@@ -38,7 +39,28 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
     return `${year}-${month}-${day}`;
   };
 
-
+  const verifyDoctorHandler = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${BASE_URL}/doctors/approve/${doctorId}`, {
+        method: 'put',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Something went wrong');
+      }
+      window.location.reload();
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const bookingHandler = async () => {
     try {
       if (!selectedDate || !selectedTime) {
@@ -135,13 +157,23 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
         </div>
       )}
       
-      <button onClick={bookingHandler} className="btn px-2 w-full rounded-md mt-4">
-        {isLoading ? (
-          <HashLoader color="#ffffff" loading={isLoading} size={20} />
-        ) : (
-          'Book Appointment'
-        )}
-      </button>
+      {isApproved === "approved" ? (
+        <button onClick={bookingHandler} className="btn px-2 w-full rounded-md mt-4">
+          {isLoading ? (
+            <HashLoader color="#ffffff" loading={isLoading} size={20} />
+          ) : (
+            'Book Appointment'
+          )}
+        </button>
+      ) : isApproved === "pending" ? (
+        <button onClick={verifyDoctorHandler} 
+        className="btn px-2 w-full rounded-md mt-4">
+          {isLoading ? (
+            <HashLoader color="#ffffff" loading={isLoading} size={20} />
+          ) : (
+          'Verify Doctor'
+          )}</button>
+      ) : null}
     </div>
   );
 };

@@ -5,7 +5,9 @@ import {
   getAllDoctor,
   getSingleDoctor,
   getDoctorProfile,
-  searchDoctor
+  searchDoctor,
+  unapprovedDoctors,
+  approveDoctor
 } from "../Controllers/doctorController.js";
 import { authenticate, restrict } from "../auth/verifyToken.js";
 
@@ -14,8 +16,9 @@ import reviewRouter from "./review.js";
 const router = express.Router();
 
 router.use("/:doctorId/reviews", reviewRouter);
-
-router.get("/:id", getSingleDoctor);
+router.get("/unapproved", unapprovedDoctors); // Handle unapproved doctors before specific doctor route
+router.get("/:id", getSingleDoctor); // Handle specific doctor by ID
+router.put("/approve/:id", approveDoctor); // Handle specific doctor by ID
 router.get("/", getAllDoctor);
 router.put("/:id", authenticate, restrict(["doctor"]), updateDoctor);
 router.delete("/:id", authenticate, restrict(["doctor"]), deleteDoctor);

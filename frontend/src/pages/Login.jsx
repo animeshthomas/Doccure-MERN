@@ -24,45 +24,59 @@ const Login = () => {
   const submitHandler = async event => {
     event.preventDefault();
     setLoading(true);
-
-    try {
-      const res = await fetch(`${BASE_URL}/auth/login`, {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-
-      const result = await res.json();
-
-      if (!res.ok) {
-        throw new Error(result.message);
-      }
-
+  
+    // Check if email is admin and password is 123
+    if (formData.email === 'admin@gmail.com' && formData.password === '1234') {
+      navigate('/home');
+      setLoading(false);
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: {
-          user: result.data,
-          token: result.token,
-          role: result.role,
+          user: 'Admin Medicare',
+          token: 'admToken',
+          role: 'admin',
         }
       });
-
-      console.log(result, "login data");
-
-      setLoading(false);
-      toast.success(result.message);
-
-      // Navigate to the user dashboard
-      navigate('/home');
-
-
-    } catch (err) {
-      toast.error(err.message);
-      setLoading(false);
+      toast.success('Welcome Medicare Admin!');
+      return;
     }
+    else{
+      try {
+        const res = await fetch(`${BASE_URL}/auth/login`, {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+    
+        const result = await res.json();
+    
+        if (!res.ok) {
+          throw new Error(result.message);
+        }
+    
+        dispatch({
+          type: 'LOGIN_SUCCESS',
+          payload: {
+            user: result.data,
+            token: result.token,
+            role: result.role,
+          }
+        });
+    
+        setLoading(false);
+        toast.success(result.message);
+        navigate('/home');
+    
+      } catch (err) {
+        toast.error(err.message);
+        setLoading(false);
+      }
+    }
+  
   }
+  
 
 
   return (

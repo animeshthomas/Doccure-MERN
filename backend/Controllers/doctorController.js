@@ -78,6 +78,7 @@ export const getSingleDoctor = async (req, res) => {
 };
 
 export const getAllDoctor = async (req, res) => {
+  console.log("getAllDoctor")
   try {
     const { query } = req.query;
     let doctors;
@@ -110,6 +111,53 @@ export const getAllDoctor = async (req, res) => {
   }
 };
 
+export const unapprovedDoctors = async (req, res) => {
+  try {
+    const doctors = await Doctor.find({ isApproved: "pending" }).select(
+      "-password"
+    );
+    if (doctors.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No Unapproved Doctor Found!",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Unapproved Doctors Found",
+      data: doctors, // Use doctors
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve unapproved doctors!",
+      data: error.message,
+    });
+  }
+};
+
+export const approveDoctor = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const doctor = await Doctor.findByIdAndUpdate(
+      id,
+      { isApproved: "approved" },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Doctor Approved",
+      data: doctor, // Use doctor
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to approve doctor!",
+      data: error.message,
+    });
+  }
+};
 
 export const getDoctorProfile = async (req, res) => {
   const userId = req.userId;
@@ -123,12 +171,12 @@ export const getDoctorProfile = async (req, res) => {
       });
     }
 
-    const{password,...rest} = doctor._doc
-    const appointments = await Booking.find({doctor:userId})
+    const { password, ...rest } = doctor._doc
+    const appointments = await Booking.find({ doctor: userId })
     res.status(200).json({
       success: true,
       message: "Doctor Found",
-      data: {...rest,appointments}, // Use doctor
+      data: { ...rest, appointments }, // Use doctor
     });
 
 
