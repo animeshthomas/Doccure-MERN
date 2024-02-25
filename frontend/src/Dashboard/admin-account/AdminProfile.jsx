@@ -3,11 +3,12 @@ import ViewDoctors from './ViewDoctors'
 import ViewUsers from './ViewUsers'
 import { authContext } from '../../context/AuthContext'
 import { toast } from 'react-toastify'
+import Insights from './Insights'
 
 const AdminProfile = () => {
     const [tab, setTab] = useState('doctors')
 
-    const {dispatch} = useContext(authContext)
+    const { dispatch } = useContext(authContext)
     const handleLogout = () => {
         dispatch({ type: 'LOGOUT' })
         toast.success('Logged out successfully')
@@ -34,11 +35,11 @@ const AdminProfile = () => {
                             </p>
                         </div>
 
-                        <div className="mt-[50px] md:mt-[100px]">
+                        <div className="mt-[50px] md:mt-[100px] space-y-4">
                             <button onClick={handleLogout} className="w-full bg-[#181A1E] p-3 text-[16px] leading-7 rounded-md text-white">
                                 Logout
                             </button>
-                            <button className="w-full bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md text-white">
+                            <button className="w-full bg-red-600 p-3 text-[16px] leading-7 rounded-md text-white">
                                 Delete account
                             </button>
                         </div>
@@ -54,6 +55,13 @@ const AdminProfile = () => {
                             </button>
 
                             <button
+                                onClick={() => setTab('insights')}
+                                className={` ${tab === 'insights' && 'bg-primaryColor text-white font-normal'}
+            p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}>
+                                View Insights
+                            </button>
+
+                            <button
                                 onClick={() => setTab('users')}
                                 className={` ${tab === 'users' && 'bg-primaryColor text-white font-normal'} 
             py-2 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}>
@@ -63,6 +71,8 @@ const AdminProfile = () => {
 
                         {tab === 'doctors' && <ViewDoctors />}
                         {tab === 'users' && <ViewUsers />}
+                        {tab === 'insights' && <Insights />}
+
                     </div>
                 </div>
 

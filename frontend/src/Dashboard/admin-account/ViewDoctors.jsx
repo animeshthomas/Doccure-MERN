@@ -19,7 +19,7 @@ const ViewDoctors = () => {
      }
      </div>
      )}
-     {!loading  && doctors.length==0 &&  <h2 className='mt-5 text-center text-primaryColor text-[20px] leading-7 font-semibold'>No Doctors To Verify</h2>}
+     {!loading  && doctors.length==0 &&  <h2 className='mt-5 text-center text-primaryColor text-[20px] leading-7 font-semibold align:center'>No New Doctor Registrations To Verify</h2>}
  </div>
   )
 }

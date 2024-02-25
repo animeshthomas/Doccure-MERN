@@ -78,19 +78,29 @@ export const getAllUser = async (req, res) => {
   try {
     const users = await User.find().select("-password");
 
+    // Map through each user and count their bookings
+    const usersWithBookingsCount = await Promise.all(users.map(async (user) => {
+      const bookingsCount = await Booking.countDocuments({ user: user._id });
+      return { ...user.toObject(), bookingsCount };
+    }));
+
+    // Sort users based on bookingsCount in descending order
+    usersWithBookingsCount.sort((a, b) => b.bookingsCount - a.bookingsCount);
+
     res.status(200).json({
       success: true,
       message: "Users Found",
-      data: users,
+      data: usersWithBookingsCount,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Failed to retrieve users!",
-      data: error.message, // Corrected error handling
+      data: error.message,
     });
   }
 };
+
 
 export const getUserProfile = async (req, res) => {
   const userId = req.userId;
