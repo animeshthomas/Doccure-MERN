@@ -29,7 +29,8 @@ const DoctorsDetails = () => {
     specialization,
     ticketPrice,
     photo,
-    email
+    email,
+    isApproved
   } = doctor;
 
   return (
@@ -109,7 +110,7 @@ const DoctorsDetails = () => {
 
 
           <div>
-            <SidePanel doctorId={doctor._id} ticketPrice={ticketPrice} timeSlots={timeSlots} />
+            <SidePanel doctorId={doctor._id} ticketPrice={ticketPrice} timeSlots={timeSlots} isApproved={isApproved} />
           </div>
         </div>)}
       </div>
