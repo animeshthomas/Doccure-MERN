@@ -4,6 +4,7 @@ import ViewUsers from './ViewUsers'
 import { authContext } from '../../context/AuthContext'
 import { toast } from 'react-toastify'
 import Insights from './Insights'
+import ViewAllDoctors from './ViewAllDoctors'
 
 const AdminProfile = () => {
     const [tab, setTab] = useState('doctors')
@@ -62,6 +63,13 @@ const AdminProfile = () => {
                             </button>
 
                             <button
+                                onClick={() => setTab('alldoctors')}
+                                className={` ${tab === 'alldoctors' && 'bg-primaryColor text-white font-normal'}
+            p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}>
+                                View Doctors
+                            </button>
+
+                            <button
                                 onClick={() => setTab('users')}
                                 className={` ${tab === 'users' && 'bg-primaryColor text-white font-normal'} 
             py-2 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}>
@@ -72,6 +80,7 @@ const AdminProfile = () => {
                         {tab === 'doctors' && <ViewDoctors />}
                         {tab === 'users' && <ViewUsers />}
                         {tab === 'insights' && <Insights />}
+                        {tab === 'alldoctors' && <ViewAllDoctors />}
 
                     </div>
                 </div>

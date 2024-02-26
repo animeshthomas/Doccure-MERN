@@ -159,6 +159,29 @@ export const approveDoctor = async (req, res) => {
   }
 };
 
+export const rejectDoctor = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const doctor = await Doctor.findByIdAndUpdate(
+      id,
+      { isApproved: "rejected" },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Doctor Rejected",
+      data: doctor, // Use doctor
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to reject doctor!",
+      data: error.message,
+    });
+  }
+};
+
 export const getDoctorProfile = async (req, res) => {
   const userId = req.userId;
   try {
