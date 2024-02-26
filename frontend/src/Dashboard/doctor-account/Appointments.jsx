@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { formateDate } from '../../utils/formateDate';
 import convertTime from '../../utils/covertTime';
 import { Link } from 'react-router-dom';
 
 const Appointments = ({ appointments }) => {
-  const currentDate = new Date();
+  const [currentPage, setCurrentPage] = useState(1);
+  const appointmentsPerPage = 5;
+
+  const indexOfLastAppointment = currentPage * appointmentsPerPage;
+  const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
+  const currentAppointments = appointments.slice(indexOfFirstAppointment, indexOfLastAppointment);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
+        {/* Table Header */}
         <thead className="bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -33,19 +41,19 @@ const Appointments = ({ appointments }) => {
               Time
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-
             </th>
-
           </tr>
         </thead>
+        {/* Table Body */}
         <tbody className="bg-white divide-y divide-gray-200">
-          {appointments.map(item => {
+          {currentAppointments.map(item => {
             const appointmentDate = new Date(item.appointmentDate);
             const appointmentDateTime = appointmentDate.setHours(
               item.appointmentTime.split(':')[0],
               item.appointmentTime.split(':')[1]
             );
 
+            const currentDate = new Date();
             // Check if appointment date has passed
             const isAppointmentPassed = appointmentDateTime < currentDate;
 
@@ -90,12 +98,27 @@ const Appointments = ({ appointments }) => {
                     </Link>
                   )}
                 </td>
-
               </tr>
             );
           })}
         </tbody>
       </table>
+      {/* Pagination */}
+      <nav className="mt-4" aria-label="Pagination">
+        <ul className="flex justify-center">
+          {Array.from({ length: Math.ceil(appointments.length / appointmentsPerPage) }, (_, index) => (
+            <li key={index}>
+              <button
+                onClick={() => paginate(index + 1)}
+                className={`bg-blue-500 text-white font-semibold py-2 px-4 rounded-full mx-1 ${currentPage === index + 1 ? 'bg-blue-700' : ''}`}
+              >
+                {index + 1}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
     </div>
   );
 };

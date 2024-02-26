@@ -1,81 +1,153 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import HashLoader from 'react-spinners/HashLoader';
+import { BASE_URL, token } from "../../config";
 
 const ProvidePrescription = () => {
-  // State to hold the list of medicines
-  const [medicines, setMedicines] = useState([
-    { name: '', dosage: '', frequency: '' },
-  ]);
+  const { userid } = useParams(); 
+    const doctor = localStorage.getItem('userId');
+    console.log("UserId",userid,"DoctorId", doctor)
+    const [formData, setFormData] = useState({
+        doctor: doctor,
+        patient: userid,
+        prescriptions: []
+    });
+    const [isLoading, setIsLoading] = useState(false);
 
-  // Function to handle changes to medicine inputs
-  const handleMedicineChange = (index, event) => {
-    const newMedicines = [...medicines];
-    newMedicines[index][event.target.name] = event.target.value;
-    setMedicines(newMedicines);
-  };
+    const SubmitHandler = async (e) => {
+        e.preventDefault();
+        try {
+            setIsLoading(true);
+            const res = await fetch(`${BASE_URL}/prescriptions/provide`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(formData),
+            });
+            console.log(res)
+            const result = await res.json();
 
-  // Function to add a new medicine field
-  const addMedicine = () => {
-    setMedicines([...medicines, { name: '', dosage: '', frequency: '' }]);
-  };
+            if (!res.ok) {
+                throw new Error(result.message);
+            }
 
-  // Function to remove a medicine field
-  const removeMedicine = index => {
-    const newMedicines = [...medicines];
-    newMedicines.splice(index, 1);
-    setMedicines(newMedicines);
-  };
+            toast.success(result.message);
+        } catch (err) {
+            toast.error('Failed to send prescription: ' + err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-  // Function to handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Submit the medicines list to your backend here
-    console.log('Medicines:', medicines);
-  };
+    const addItem = (key, item) => {
+        setFormData(prevFormData => ({ ...prevFormData, [key]: [...prevFormData[key], item] }));
+    };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <h2>Provide Prescription</h2>
-      {medicines.map((medicine, index) => (
-        <div key={index} className="medicine-entry">
-          <input
-            type="text"
-            name="name"
-            value={medicine.name}
-            onChange={(event) => handleMedicineChange(index, event)}
-            placeholder="Medicine Name"
-            required
-          />
-          <input
-            type="text"
-            name="dosage"
-            value={medicine.dosage}
-            onChange={(event) => handleMedicineChange(index, event)}
-            placeholder="Dosage"
-            required
-          />
-          <input
-            type="text"
-            name="frequency"
-            value={medicine.frequency}
-            onChange={(event) => handleMedicineChange(index, event)}
-            placeholder="Frequency"
-            required
-          />
-          {medicines.length > 1 && (
-            <button type="button" onClick={() => removeMedicine(index)}>
-              <AiOutlineDelete />
-            </button>
-          )}
+    const handleInputChange = (key, event, index) => {
+        const { name, value } = event.target;
+        setFormData(prevFormData => {
+            const updatedItems = [...prevFormData[key]];
+            updatedItems[index][name] = value;
+            return { ...prevFormData, [key]: updatedItems };
+        });
+    };
+
+    const deleteItem = (key, index) => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [key]: prevFormData[key].filter((_, i) => i !== index)
+        }));
+    };
+
+    const addPrescription = (e) => {
+        e.preventDefault();
+        addItem('prescriptions', { medicine: "", noofdays: "", dosage: "", frequency: "" });
+    };
+
+    const handlePrescriptionChange = (event, index) => {
+        handleInputChange('prescriptions', event, index);
+    };
+
+    const deletePrescription = (e, index) => {
+        e.preventDefault();
+        deleteItem('prescriptions', index);
+    };
+
+    return (
+        <div className="container mx-auto px-4 py-8">
+            <h2 className="text-headingColor font-bold text-[24px] leading-9 mb-10 text-center">
+        Send Prescriptions
+    </h2>
+            <form onSubmit={SubmitHandler}>
+                {/* Prescription Inputs */}
+                {formData.prescriptions.map((prescription, index) => (
+                    <div key={index} className="mb-5">
+                        <div className='grid grid-cols-2 gap-5'>
+                            <div>
+                                <p className="form__label">Medicine*</p>
+                                <input
+                                    type="text"
+                                    name='medicine'
+                                    value={prescription.medicine}
+                                    className='form__input'
+                                    onChange={(e) => handlePrescriptionChange(e, index)}
+                                />
+                            </div>
+                            <div>
+                                <p className="form__label">No. of Days*</p>
+                                <input
+                                    type="text"
+                                    name='noofdays'
+                                    value={prescription.noofdays}
+                                    className='form__input'
+                                    onChange={(e) => handlePrescriptionChange(e, index)}
+                                />
+                            </div>
+                            <div>
+                                <p className="form__label">Dosage*</p>
+                                <input
+                                    type="text"
+                                    name='dosage'
+                                    value={prescription.dosage}
+                                    className='form__input'
+                                    onChange={(e) => handlePrescriptionChange(e, index)}
+                                />
+                            </div>
+                            <div>
+                                <p className="form__label">Frequency*</p>
+                                <input
+                                    type="text"
+                                    name='frequency'
+                                    value={prescription.frequency}
+                                    className='form__input'
+                                    onChange={(e) => handlePrescriptionChange(e, index)}
+                                />
+                            </div>
+                        </div>
+                        <button onClick={e => deletePrescription(e, index)} className='bg-red-600 p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer'><AiOutlineDelete /></button>
+                    </div>
+                ))}
+                <button
+                    onClick={addPrescription}
+                    className='bg-[#000] p-2 px-5 rounded text-white h-fit cursor-pointer'
+                >Add Prescription</button>
+
+                <div className="mt-7">
+                    <button
+                        type="submit"
+                        className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? <HashLoader color="#ffffff" loading={isLoading} size={20} /> : 'Provide Prescription'}
+                    </button>
+                </div>
+            </form>
         </div>
-      ))}
-      <div className="actions">
-        <button type="button" onClick={addMedicine}>Add Another Medicine</button>
-        <button type="submit">Submit Prescription</button>
-      </div>
-    </form>
-  );
+    );
 };
-
 
 export default ProvidePrescription;
