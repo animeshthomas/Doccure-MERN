@@ -23,7 +23,7 @@ const bookingSchema = new mongoose.Schema(
       default: true,
     },
     appointmentDate: { type: Date, required: true }, 
-    appointmentTime: { type: String, required: true }, 
+    appointmentTime: { type: String, required: true },
   },
   { timestamps: true }
 );
