@@ -7,6 +7,8 @@ const initialState = {
         : null,
     role: localStorage.getItem('role') || null,
     token: localStorage.getItem('token') || null,
+    userId: localStorage.getItem('userId') || null,
+    isPremiumUser: localStorage.getItem('premiumstatus') || null
 }
 
 export const authContext = createContext(initialState)
@@ -31,10 +33,13 @@ const authReducer = (state, action) => {
             }
 
         case 'LOGOUT':
+            localStorage.clear();
             return {
                 user: null,
                 role: null,
                 token: null,
+                isPremiumUser: null,
+                userId: null
             }
 
         default:
@@ -50,6 +55,8 @@ export const AuthContextProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(state.user))
         localStorage.setItem("token", state.token)
         localStorage.setItem("role", state.role)
+        localStorage.setItem("userId", state.userId)
+        localStorage.setItem("premiumstatus", state.isPremiumUser)
     }, [state])
 
     return (
@@ -58,7 +65,9 @@ export const AuthContextProvider = ({ children }) => {
                 user: state.user,
                 token: state.token,
                 role: state.role,
-                userid: state.userid,
+                userId: state.userId,
+                isPremiumUser: state.isPremiumUser,
+
                 dispatch
             }}
         >

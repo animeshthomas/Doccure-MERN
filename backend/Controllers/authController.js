@@ -108,12 +108,11 @@ export const login = async (req, res) => {
       const token = generateToken(user);
       const { password, role, appointments, ...rest } = user._doc;
       const userId = rest._id.toString(); // Convert ObjectId to string
-
       console.log("User ID:", userId); // Debug statement
-
+      const isPremiumUser = rest.isPremiumUser;
       res
           .status(200)
-          .json({ status: true, message: 'Successfully Login', token, data: { ...rest }, role, userId });
+          .json({ status: true, message: 'Successfully Login', token, data: { ...rest }, role, userId,isPremiumUser });
 
   } catch (error) {
       console.error("Error:", error); // Debug statement

@@ -8,7 +8,8 @@ import {
   getMyAppointments,
   resetPassword,
   forgotPassword,
-  sendQueryToDoctor
+  sendQueryToDoctor,
+  UpgradeToPremium,
 } from "../Controllers/userController.js";
 
 import { authenticate, restrict } from "../auth/verifyToken.js";
@@ -23,6 +24,7 @@ router.post('/reset-password', resetPassword);
 router.post('/forgot-password', forgotPassword);
 router.get("/profile/me", authenticate, restrict(["patient"]), getUserProfile); // Protected route
 router.post('/send-query-to-doctor', sendQueryToDoctor);
+router.post('/upgrade-to-premium', authenticate, restrict(["patient"]), UpgradeToPremium);
 
 router.get(
   '/appointments/my-appointments', 

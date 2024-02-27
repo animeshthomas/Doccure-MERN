@@ -5,6 +5,7 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import { passwordResetEmail,userQueryEmail } from '../emailContents/mailContents.js';
 import { sendEmail } from "../Services/emailService.js";
+import Stripe from 'stripe';
 
 export const updateUser = async (req, res) => {
   const id = req.params.id;
@@ -270,3 +271,59 @@ export const sendQueryToDoctor = async (req, res) => {
     });
   }
 };
+
+export const UpgradeToPremium = async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'payment',
+      success_url: `${process.env.CLIENT_SITE_URL}/checkout-success`,
+      cancel_url: `${process.env.CLIENT_SITE_URL}/users/profile/me`,
+      customer_email: user.email,
+      client_reference_id: userId,
+      line_items: [{
+          price_data: {
+              currency: 'inr',
+              unit_amount: 1000 * 100,
+              product_data: {
+                  name: 'Premium User',
+                  description: 'Upgrade to premium user',
+                  images: ['https://medinscare.s3.ap-south-1.amazonaws.com/hospitalNewsImages/logo.png']
+              },
+          },
+          quantity: 1
+      }],
+      shipping_address_collection: {
+          allowed_countries: ['IN'],
+      },
+      billing_address_collection: 'auto',
+    });
+
+    user.isPremiumUser = true;
+    await user.save();
+    
+    res.status(200).json({
+      success: true,
+      message: "User upgraded to premium successfully",
+      session
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to upgrade user to premium",
+      error: error.message,
+    });
+  }
+};
+
