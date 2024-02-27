@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
   appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }, 
+  isPremiumUser: { type: Boolean, default: false },
 });
 
 export default mongoose.model("User", UserSchema);

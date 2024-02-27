@@ -67,6 +67,7 @@ const Login = () => {
         });
         console.log("userid"+result.userId)
         localStorage.setItem('userId', result.userId);
+        localStorage.setItem('premiumstatus', result.isPremiumUser);
 
         setLoading(false);
         toast.success(result.message);

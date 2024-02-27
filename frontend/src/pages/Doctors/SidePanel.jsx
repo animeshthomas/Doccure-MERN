@@ -3,6 +3,7 @@ import HashLoader from 'react-spinners/HashLoader';
 import convertTime from '../../utils/covertTime'; // corrected typo in the import
 import { BASE_URL, token } from '../../config';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
 
@@ -93,7 +94,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
       setIsLoading(false);
     }
   };
-
+  const userId = localStorage.getItem('userId');
 
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
@@ -156,24 +157,37 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
           </select>
         </div>
       )}
-      
-      {isApproved === "approved" ? (
-        <button onClick={bookingHandler} className="btn px-2 w-full rounded-md mt-4">
-          {isLoading ? (
-            <HashLoader color="#ffffff" loading={isLoading} size={20} />
-          ) : (
-            'Book Appointment'
-          )}
-        </button>
-      ) : isApproved === "pending" ? (
-        <button onClick={verifyDoctorHandler} 
-        className="btn px-2 w-full rounded-md mt-4">
-          {isLoading ? (
-            <HashLoader color="#ffffff" loading={isLoading} size={20} />
-          ) : (
-          'Verify Doctor'
-          )}</button>
-      ) : null}
+
+      {console.log(userId)}
+      {userId === "null" ? (
+        <Link to="/login">
+          <button className="btn px-2 w-full rounded-md mt-4">
+            Login to book appointment
+          </button>
+        </Link>
+      ) : (
+        isApproved === "approved" ? (
+          <button onClick={bookingHandler} className="btn px-2 w-full rounded-md mt-4">
+            {isLoading ? (
+              <HashLoader color="#ffffff" loading={isLoading} size={20} />
+            ) : (
+              'Book Appointment'
+            )}
+          </button>
+        ) : (
+          isApproved === "pending" ? (
+            <button onClick={verifyDoctorHandler} className="btn px-2 w-full rounded-md mt-4">
+              {isLoading ? (
+                <HashLoader color="#ffffff" loading={isLoading} size={20} />
+              ) : (
+                'Verify Doctor'
+              )}
+            </button>
+          ) : null
+        )
+      )}
+
+
     </div>
   );
 };
