@@ -9,6 +9,8 @@ Welcome to Doccure, your ultimate destination for hassle-free doctor appointment
 - **Appointment Booking:** 📅 Schedule appointments with your preferred doctors at your convenience.
 - **Payment Integration:** 💳 Experience secure and convenient payment processing through the magic of Stripe.
 - **Premium Subscription Module:** 💼 Unlock exclusive features and benefits by subscribing to our premium membership.
+- **Prescription Module:** 📝 Receive and manage digital prescriptions securely from your healthcare providers.
+- **Queries/Email Module:** 📧 Have questions or concerns? Reach out to us via email for prompt assistance and support.
 - **Responsive UI:** 📱 Enjoy a user-friendly and modern interface designed with the elegance of Tailwind CSS.
 
 ## Tech Stack 💻
