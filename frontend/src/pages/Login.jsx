@@ -70,7 +70,7 @@ const Login = () => {
         localStorage.setItem('premiumstatus', result.isPremiumUser);
 
         setLoading(false);
-        toast.success(result.message);
+        toast.success("Welcome " + result.data.name + "!");
         navigate('/home');
 
       } catch (err) {
