@@ -60,14 +60,19 @@ const Login = () => {
         dispatch({
           type: 'LOGIN_SUCCESS',
           payload: {
+            userId: result.userId,
+            isPremiumUser: result.isPremiumUser,
             user: result.data,
             token: result.token,
             role: result.role,
           }
         });
-        console.log("userid"+result.userId)
-        localStorage.setItem('userId', result.userId);
-        localStorage.setItem('premiumstatus', result.isPremiumUser);
+        console.log(result)
+        console.log(result.userId)
+        const userId=result.userId
+        const isPremiumUser=result.isPremiumUser
+        // localStorage.setItem('userId', userId);
+        // localStorage.setItem('premiumstatus', isPremiumUser);
 
         setLoading(false);
         toast.success("Welcome " + result.data.name + "!");

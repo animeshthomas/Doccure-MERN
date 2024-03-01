@@ -20,6 +20,8 @@ const authReducer = (state, action) => {
                 user: null,
                 role: null,
                 token: null,
+                isPremiumUser: null,
+                userId: null
             }
 
         case "LOGIN_SUCCESS":

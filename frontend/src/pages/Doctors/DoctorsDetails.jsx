@@ -7,9 +7,10 @@ import SidePanel from './SidePanel'
 import useFetchData from '../../hooks/useFetchData'
 import Loader from '../../components/Loader/Loading'
 import Error from '../../components/Error/Error'
-import { BASE_URL } from '../../config'
+import { BASE_URL, getIsPremiumUser } from '../../config'
 import { useParams } from 'react-router-dom'
 import AskQuries from './AskQuries'
+import Chat from './Chat'
 
 const DoctorsDetails = () => {
   const [tab, setTab] = useState('about')
@@ -32,7 +33,8 @@ const DoctorsDetails = () => {
     email,
     isApproved
   } = doctor;
-
+  const isPremiumUser = getIsPremiumUser();
+  console.log(isPremiumUser);
   return (
     <section>
       <div className="max-w-[1170px] px-5 mx-auto">
@@ -78,12 +80,13 @@ const DoctorsDetails = () => {
               >
                 About
               </button>
-              {localStorage.getItem('premiumstatus') && localStorage.getItem('premiumstatus') === 'true' && (
+             
+              {isPremiumUser === true && (              
                 <button
-                  onClick={() => setTab('queries')}
-                  className={`${tab === 'queries' && 'border-b border-solid border-primaryColor'} py-2 px-5 mr-5 text-[16px] leading-7 text-headingColor font-semibold`}
+                  onClick={() => setTab('chat')}
+                  className={`${tab === 'chat' && 'border-b border-solid border-primaryColor'} py-2 px-5 mr-5 text-[16px] leading-7 text-headingColor font-semibold`}
                 >
-                  Ask Queries? (Premium Only)
+                  Chat (Premium Only)
                 </button>
               )}
 
@@ -102,10 +105,10 @@ const DoctorsDetails = () => {
               {
                 tab === 'feedback' && <Feedback reviews={reviews} totalRating={totalRating} />
               }
-              {localStorage.getItem('premiumstatus') === 'true' && tab === 'queries' && (
-                <AskQuries doctorEmail={email} />
+              {isPremiumUser === true && tab === 'chat' && (
+                <Chat doctorId={id} />
               )}
-
+              
 
             </div>
 
