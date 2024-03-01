@@ -31,8 +31,6 @@ export const getCheckoutSession = async (req, res) => {
 
         // Create a Stripe instance
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-        // Create the Checkout Session with the appropriate configuration for INR transactions
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -54,9 +52,36 @@ export const getCheckoutSession = async (req, res) => {
             }],
             billing_address_collection: 'auto', // Automatically collect billing address
             shipping_address_collection: {
-                allowed_countries: ['US'] // Allow shipping address collection only for a specific country outside India (e.g., US)
+                allowed_countries: ['IN'] // Allow shipping address collection only for India
             }
         });
+
+
+        // Create the Checkout Session with the appropriate configuration for INR transactions
+        // const session = await stripe.checkout.sessions.create({
+        //     payment_method_types: ['card'],
+        //     mode: 'payment',
+        //     success_url: `${process.env.CLIENT_SITE_URL}/checkout-success`,
+        //     cancel_url: `${req.protocol}://${req.get('host')}/doctors/${doctor.id}`,
+        //     customer_email: user.email,
+        //     client_reference_id: req.params.id,
+        //     line_items: [{
+        //         price_data: {
+        //             currency: 'inr',
+        //             unit_amount: doctor.ticketPrice * 100,
+        //             product_data: {
+        //                 name: doctor.name,
+        //                 description: doctor.bio,
+        //                 images: [doctor.photo]
+        //             },
+        //         },
+        //         quantity: 1
+        //     }],
+        //     billing_address_collection: 'auto', // Automatically collect billing address
+        //     shipping_address_collection: {
+        //         allowed_countries: ['US'] // Allow shipping address collection only for a specific country outside India (e.g., US)
+        //     }
+        // });
 
         // Create a new booking with appointmentDate and appointmentTime
         const booking = new Booking({
