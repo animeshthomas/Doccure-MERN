@@ -52,10 +52,10 @@ export const getCheckoutSession = async (req, res) => {
                 },
                 quantity: 1
             }],
+            billing_address_collection: 'auto', // Automatically collect billing address
             shipping_address_collection: {
-                allowed_countries: ['IN'], // Set allowed countries to India only for INR transactions
-            },
-            billing_address_collection: 'auto', // Collect billing address automatically
+                allowed_countries: ['US'] // Allow shipping address collection only for a specific country outside India (e.g., US)
+            }
         });
 
         // Create a new booking with appointmentDate and appointmentTime
