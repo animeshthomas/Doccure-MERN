@@ -81,6 +81,10 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
         })
       });
       const data = await response.json();
+      console.log(data)
+      if(!response.ok && response.status === 400) {
+        throw new Error(data.message);
+      }
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Something went wrong');
