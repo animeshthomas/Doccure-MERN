@@ -20,6 +20,7 @@ const DoctorSchema = new mongoose.Schema({
   experiences: {
     type: Array,
   },
+  emailVerified: { type: Boolean, default: false },
 
   bio: { type: String, maxLength: 50 },
   about: { type: String },

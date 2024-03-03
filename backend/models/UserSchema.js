@@ -17,6 +17,7 @@ const UserSchema = new mongoose.Schema({
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }, 
   isPremiumUser: { type: Boolean, default: false },
+  emailVerified: { type: Boolean, default: false },
 });
 
 export default mongoose.model("User", UserSchema);

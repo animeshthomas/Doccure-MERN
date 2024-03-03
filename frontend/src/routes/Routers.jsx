@@ -16,6 +16,7 @@ import ForgotPassword from '../pages/forgotPassword'
 import ResetPassword from '../pages/ResetPassword'
 import AdminProfile from '../Dashboard/admin-account/AdminProfile'
 import ProvidePrescription from '../Dashboard/doctor-account/ProvidePrescription'
+import ConfirmEmail from '../pages/ConfirmEmail'
 
 
 const Routers = () => {
@@ -25,6 +26,7 @@ const Routers = () => {
     <Route path="/doctors" element={<Doctors/>} />
     <Route path="/doctors/:id" element={<DoctorsDetails/>} />
     <Route path="/login" element={<Login/>} />
+    <Route path="/confirm_email/:verificationToken" element={<ConfirmEmail/>} />
     <Route path="/register" element={<Signup/>} />
     <Route path="/contact" element={<Contact/>} />
     <Route path="/services" element={<Services/>} />
