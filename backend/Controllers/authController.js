@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-
+import { sendEmail } from '../Services/emailService.js';
+import { succesRegistration } from '../emailContents/mailContents.js';
 import User from "../models/UserSchema.js";
 import Doctor from "../models/DoctorSchema.js";
 
@@ -61,7 +62,16 @@ export const register = async (req, res) => {
     await user.save();
     res
       .status(200)
-      .json({ success: true, message: "User successfully created" });
+      .json({ success: true, message: "User successfully created, Check your Email!" });
+    // Construct email options
+    const options = {
+      to: email,
+      subject: `Confirm Your Email, Team Doccure`,
+      html: succesRegistration(name, email, `${process.env.CLIENT_SITE_URL}/confirm_email/${user._id}`) 
+    };
+
+    // Send the email
+    await sendEmail(options);
   } catch (error) {
     res
       .status(500)
@@ -104,6 +114,10 @@ export const login = async (req, res) => {
           return res.status(400).json({ status: false, message: 'Invalid Credentials' });
       }
 
+      if(!user.emailVerified) {
+        return res.status(400).json({ status: false, message: 'Please Verify Your Email' });
+      }
+
       // get token
       const token = generateToken(user);
       const { password, role, appointments, ...rest } = user._doc;
@@ -122,3 +136,25 @@ export const login = async (req, res) => {
 
 
 
+export const confirmEmail = async (req, res) => {
+  const { verificationToken } = req.params;
+  try {
+    const user = await User.findById(verificationToken);
+    const doctor = await Doctor.findById(verificationToken);
+    if (!user && !doctor) {
+      return res.status(400).json({ message: "No User Found" });
+    }
+    if(user){
+      user.emailVerified = true;
+      await user.save();
+    }
+    if(doctor){
+      doctor.emailVerified = true;
+      await doctor.save();
+    }
+    res.status(200).json({ message: "Email Verified Successfully" });
+  }
+  catch (error) {
+    res.status(500).json({ message: "Failed to verify email" });
+  }
+}
