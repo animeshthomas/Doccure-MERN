@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const DoctorSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -10,18 +9,14 @@ const DoctorSchema = new mongoose.Schema({
   role: {
     type: String,
   },
-
-
   specialization: { type: String },
   qualifications: {
     type: Array,
   },
-
   experiences: {
     type: Array,
   },
   emailVerified: { type: Boolean, default: false },
-
   bio: { type: String, maxLength: 50 },
   about: { type: String },
   timeSlots: { type: Array },
