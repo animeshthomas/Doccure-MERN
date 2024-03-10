@@ -108,29 +108,43 @@ export const getAllPatients = async (req, res) => {
     const patients = await User.find({ role: "patient" });
 
     // Iterate over patients to find their last sent message to the specified doctor
-    const patientsWithDetails = await Promise.all(patients.map(async (patient) => {
-      // Find last message from patient to doctor
-      const lastMessage = await Message.findOne({
-        sender: patient._id,
-        senderType: "User", // Assuming patients are users
-        receiver: doctorId,
-        receiverType: "Doctor", // Assuming doctorId is passed as a parameter
-      }).sort({ createdAt: -1 }).limit(1);
+    let patientsWithMessages = await Promise.all(
+      patients.map(async (patient) => {
+        // Find last message from patient to doctor
+        const lastMessage = await Message.findOne({
+          sender: patient._id,
+          senderType: "User", // Assuming patients are users
+          receiver: doctorId,
+          receiverType: "Doctor", // Assuming doctorId is passed as a parameter
+        }).sort({ createdAt: -1 }).limit(1);
 
-      return {
-        _id: patient._id,
-        email: patient.email,
-        name: patient.name,
-        phone: patient.phone,
-        photo: patient.photo,
-        lastMessage: lastMessage ? lastMessage.message : null,
-        lastMessageTime: lastMessage ? lastMessage.createdAt : null,
-      };
-    }));
+        // Include patients with messages and their details
+        if (lastMessage) {
+          return {
+            _id: patient._id,
+            email: patient.email,
+            name: patient.name,
+            phone: patient.phone,
+            photo: patient.photo,
+            lastMessage: lastMessage.message,
+            lastMessageTime: lastMessage.createdAt,
+          };
+        }
+        return null;
+      })
+    );
 
-    res.status(200).json({ success: true, patients: patientsWithDetails });
+    // Filter out null values (patients without messages)
+    patientsWithMessages = patientsWithMessages.filter((patient) => patient !== null);
+
+    // Sort the patients based on the lastMessageTime in descending order (most recent first)
+    patientsWithMessages.sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime));
+
+    res.status(200).json({ success: true, patients: patientsWithMessages });
   } catch (error) {
     console.error("Error fetching patients:", error);
     res.status(500).json({ success: false, error: "Failed to fetch patients" });
   }
 };
+
+
