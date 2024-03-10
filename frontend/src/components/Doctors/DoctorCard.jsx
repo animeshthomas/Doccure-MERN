@@ -7,11 +7,15 @@ const DoctorCard = ({ doctor }) => {
 
     const { name, averageRating, totalRating, photo, specialization, experiences } = doctor
     return (
-        <div className="p-3 lg:p-5">
-            <div>
-                <img src={photo} className="w-full" alt="" />
+        <div className="p-3 lg:p-5 relative">
+            <div className="relative">
+                <img src={photo} className="w-full" alt={name} />
+                {averageRating > 4.5 && (
+                    <div className="absolute top-0 right-0 bg-red-600 text-white py-1 px-3 text-sm rounded-bl-lg shadow-md hover:bg-red-700 transition duration-300 ease-in-out transform hover:-translate-y-1">
+                        Top Rated 
+                    </div>
+                )}
             </div>
-
             <h2 className="text-[18px] leading-[30px] lg:text-[26px] lg:leading-9 
         text-headingColor font-[700] mt-3 lg:mt-5">
                 {name}

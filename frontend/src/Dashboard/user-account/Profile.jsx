@@ -28,9 +28,10 @@ const Profile = (user) => {
       // password: user.user.password,
       photo: user.user.photo,
       gender: user.user.gender,
-      bloodType: user.user.bloodType      
-      }
-    )}, [user])
+      bloodType: user.user.bloodType
+    }
+    )
+  }, [user])
 
   const handleInputChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -69,6 +70,7 @@ const Profile = (user) => {
       }
 
       setLoading(false)
+      window.location.reload()
       toast.success(message)
       navigate('/users/profile/me')
 
@@ -108,18 +110,27 @@ const Profile = (user) => {
           />
         </div>
         <div className="mb-5">
-          <input
-            type="text"
-            placeholder="Blood Type"
+          <select
             name="bloodType"
             value={formData.bloodType}
             onChange={handleInputChange}
             className="w-full pr-4 py-3 border-b border-solid border-[#0066ff61] 
-                  focus:outline-none focus:border-b-primaryColor text-[16px] leading-7
-                  text-headingColor placeholder:text-textColor cursor-pointer"
+              focus:outline-none focus:border-b-primaryColor text-[16px] leading-7
+              text-headingColor placeholder:text-textColor cursor-pointer"
             required
-          />
+          >
+            <option value="">Select Blood Type</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
         </div>
+
         {/* <div className="mb-5">
           <input
             type="password"

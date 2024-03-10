@@ -21,19 +21,27 @@ const DoctorsAbout = ({ name, about, qualifications, experiences }) => {
         </h3>
 
         <ul className="pt-4 md:p-5">
-          {qualifications?.map((item,index)=><li key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-end md:gap-5 mb-[30px]">
-            <div>
-              <span className="text-blue-400 text-[15px] leading-6 font-semibold">
-              {formateDate(item.startingDate)} - {formateDate(item.endingDate)}
-              </span>
-              <p className="text-[15px] leading-6 font-medium text-textColor">
-                {item.degree}
+          {qualifications?.map((item, index) => (
+            <li key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-end md:gap-5 mb-[30px]">
+              <div>
+                <span className="text-blue-400 text-[15px] leading-6 font-semibold">
+                  {formateDate(item.startingDate)} - {formateDate(item.endingDate)}
+                </span>
+                <p className="text-[15px] leading-6 font-medium text-textColor">
+                  {item.degree}
+                </p>
+                {/* View Certificate Button */}
+                {item.certificateUrl && (
+                  <a href={item.certificateUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 transition duration-300 ease-in-out mt-2 inline-block">
+                    View Certificate
+                  </a>
+                )}
+              </div>
+              <p className="text-[14px] leading-5 font-medium text-textColor">
+                {item.university}
               </p>
-            </div>
-            <p className="text-[14px] leading-5 font-medium text-textColor">
-             {item.university}
-            </p>
-          </li>)}
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -53,6 +61,12 @@ const DoctorsAbout = ({ name, about, qualifications, experiences }) => {
               <p className="text-[14px] leading-5 font-medium text-textColor">
                 {item.hospital}
               </p>
+              {/* View Certificate Button */}
+             
+                <a href="" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 transition duration-300 ease-in-out mt-2 inline-block">
+                  View Certificate
+                </a>
+            
             </li>
           ))}
         </ul>

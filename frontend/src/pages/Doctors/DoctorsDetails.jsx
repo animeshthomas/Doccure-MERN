@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import doctorImg from '../../assets/images/doctor-img02.png'
 import starIcon from '../../assets/images/Star.png'
 import DoctorsAbout from './DoctorsAbout'
 import Feedback from './Feedback'
@@ -9,7 +8,6 @@ import Loader from '../../components/Loader/Loading'
 import Error from '../../components/Error/Error'
 import { BASE_URL, getIsPremiumUser } from '../../config'
 import { useParams } from 'react-router-dom'
-import AskQuries from './AskQuries'
 import Chat from './Chat'
 
 const DoctorsDetails = () => {
@@ -43,10 +41,17 @@ const DoctorsDetails = () => {
         {!loading && !error && (<div className="grid md:grid-cols-3 gap-[50px]">
           <div className="md:col-span-2">
             <div className="flex items-center gap-5">
-              <figure className="max-w-[200px] max-h-[200px]">
-                <img src={photo} alt="" className="w-full" />
+              <figure className="max-w-[200px] max-h-[200px] relative overflow-hidden">
+                <img src={photo} alt="" className="w-full h-full object-cover" />
+                {averageRating > 4.5 && (
+                  <div
+                    className="absolute top-0 right-0 bg-red-600 text-white py-1 px-3 text-sm rounded-bl-lg shadow-md hover:bg-red-700 transition duration-300 ease-in-out transform hover:-translate-y-1"
+                    title="Got 4.5+ Avarage Rating"
+                  >
+                    Top Rated
+                  </div>
+                )}
               </figure>
-
               <div>
                 <span className="bg-[#CCF0F3] text-blue-400 py-1 px-6 lg:py-2 lg:px-6 text-[12px]
                   leading-4 lg:text-[16px] lg:leading-7 font-semibold rounded">
@@ -80,8 +85,8 @@ const DoctorsDetails = () => {
               >
                 About
               </button>
-             
-              {isPremiumUser === true && (              
+
+              {isPremiumUser === true && (
                 <button
                   onClick={() => setTab('chat')}
                   className={`${tab === 'chat' && 'border-b border-solid border-primaryColor'} py-2 px-5 mr-5 text-[16px] leading-7 text-headingColor font-semibold`}
@@ -108,7 +113,7 @@ const DoctorsDetails = () => {
               {isPremiumUser === true && tab === 'chat' && (
                 <Chat doctorId={id} />
               )}
-              
+
 
             </div>
 
