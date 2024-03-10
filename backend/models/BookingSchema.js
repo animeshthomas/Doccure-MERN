@@ -22,6 +22,7 @@ const bookingSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    
     appointmentDate: { type: Date, required: true }, 
     appointmentTime: { type: String, required: true },
   },
