@@ -13,19 +13,19 @@ Below is a detailed table of API test cases including descriptions, dates, endpo
 | 6    | Get doctor by ID test      | 2024-01-19 | `/api/v1/doctors/:id`                                     | GET    | ✅          |
 | 7    | Doctor profile test        | 2024-03-05 | `/api/v1/doctors/profile/me`                              | GET    | ✅          |
 | 8    | Update doctor test         | 2024-01-28 | `/api/v1/doctors/:id`                                     | PUT    | ✅          |
-| 9    | Delete doctor test         | 2024-03-15 | `/api/v1/doctors/:id`                                     | DELETE | ✅          |
+| 9    | Delete doctor test         | 2024-03-10 | `/api/v1/doctors/:id`                                     | DELETE | ✅          |
 | 10   | Search doctors test        | 2024-01-14 | `/api/v1/doctors/searchresult`                            | GET    | ✅          |
 | 11   | Unapproved doctors test    | 2024-02-09 | `/api/v1/doctors/unapproved`                              | GET    | ✅          |
 | 12   | Approve doctor test        | 2024-02-25 | `/api/v1/doctors/approve/:id`                             | PUT    | ✅          |
-| 13   | Reject doctor test         | 2024-03-22 | `/api/v1/doctors/reject/:id`                              | PUT    | ✅          |
+| 13   | Reject doctor test         | 2024-03-08 | `/api/v1/doctors/reject/:id`                              | PUT    | ✅          |
 | 14   | Insights access test       | 2024-03-01 | `/api/v1/insights/`                                       | GET    | ✅          |
-| 15   | Initiate chat test         | 2024-03-12 | `/api/v1/chat/`                                           | POST   | ✅          |
+| 15   | Initiate chat test         | 2024-03-07 | `/api/v1/chat/`                                           | POST   | ✅          |
 | 16   | Send to doctor test        | 2024-01-31 | `/api/v1/chat/sendToDoctor`                               | POST   | ✅          |
 | 17   | Send to user test          | 2024-02-16 | `/api/v1/chat/sendToUser`                                 | POST   | ✅          |
 | 18   | Get all patients test      | 2024-01-07 | `/api/v1/chat/getAllPatients/:doctorId/`                  | GET    | ✅          |
-| 19   | Provide prescription test  | 2024-03-18 | `/api/v1/prescriptions/provide`                           | POST   | ✅          |
+| 19   | Provide prescription test  | 2024-03-05 | `/api/v1/prescriptions/provide`                           | POST   | ✅          |
 | 20   | Get reviews test           | 2024-02-05 | `/api/v1/reviews/`                                        | GET    | ✅          |
-| 21   | Post review test           | 2024-03-26 | `/api/v1/reviews/`                                        | POST   | ✅          |
+| 21   | Post review test           | 2024-03-04 | `/api/v1/reviews/`                                        | POST   | ✅          |
 | 22   | Get doctor reviews test    | 2024-01-26 | `/api/v1/reviews/doctor/:doctorId/reviews`                | GET    | ✅          |
 | 23   | List users test            | 2024-02-01 | `/api/v1/users/`                                          | GET    | ✅          |
 | 24   | Get user by ID test        | 2024-03-08 | `/api/v1/users/:id`                                       | GET    | ✅          |
