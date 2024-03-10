@@ -3,7 +3,7 @@
 Below is a detailed table of API test cases including descriptions, dates, endpoints, methods, and their test status.<br><br>
 [![Google Sheets](https://img.shields.io/badge/-Documentation-blue?style=for-the-badge&logo=google&logoColor=white)](https://docs.google.com/spreadsheets/d/e/2PACX-1vQFwOWd2L6Bd6nVvdNxaIfKWZDzqi8Tg2yqq0KOScWHrJdPeOxdCpnt2Ou9ffOzIHVmSIJ7_SFgWUVs/pubhtml)
 
-| S.No | Description                | Date       | Endpoint                                                  | Method | Test Status |
+| S.No | Description                | Tested Date       | Endpoint                                                  | Method | Test Status |
 |------|----------------------------|------------|-----------------------------------------------------------|--------|-------------|
 | 1    | User registration test     | 2024-01-10 | `/api/v1/auth/register`                                   | POST   | ✅          |
 | 2    | User login test            | 2024-02-22 | `/api/v1/auth/login`                                      | POST   | ✅          |
