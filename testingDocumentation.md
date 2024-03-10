@@ -36,5 +36,5 @@ Below is a detailed table of API test cases including descriptions, dates, endpo
 | 29   | Reset password test        | 2024-03-03 | `/api/v1/users/reset-password`                            | POST   | ✅          |
 | 30   | Forgot password test       | 2024-01-23 | `/api/v1/users/forgot-password`                           | POST   | ✅          |
 | 31   | Query to doctor test       | 2024-02-19 | `/api/v1/users/send-query-to-doctor`                      | POST   | ✅          |
-| 32   | Upgrade to premium test    | 2024-03-29 | `/api/v1/users/upgrade-to-premium`                        | POST   | ✅          |
+| 32   | Upgrade to premium test    | 2024-03-01 | `/api/v1/users/upgrade-to-premium`                        | POST   | ✅          |
 
