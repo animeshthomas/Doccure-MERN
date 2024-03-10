@@ -58,7 +58,7 @@ const Profile = (doctorData) => {
         if (!/^[a-zA-Z\s]+$/.test(formData.name.trim())) {
             toast.error("Enter a valid name.");
             return;
-        }        
+        }
         if (!formData.email.trim()) {
             toast.error("Please enter your email.");
             return;
@@ -66,7 +66,7 @@ const Profile = (doctorData) => {
         if (!formData.phone.toString().trim()) {
             toast.error("Please enter your phone number.");
             return;
-        }        
+        }
         if (!/^[6-9]\d{9}$/.test(formData.phone.toString().trim())) {
             toast.error("Please enter a valid phone number.");
             return;
@@ -75,7 +75,7 @@ const Profile = (doctorData) => {
             toast.error("Please enter your bio.");
             return;
         }
-     
+
         if (!formData.specialization.trim()) {
             toast.error("Please select your specialization.");
             return;
@@ -88,7 +88,7 @@ const Profile = (doctorData) => {
             toast.error("Please enter a valid ticket price greater than 0.");
             return;
         }
-        
+
         // Additional validations for other fields if needed
 
         // If all validations pass, proceed with updating the profile
@@ -111,10 +111,36 @@ const Profile = (doctorData) => {
         } catch (err) {
             toast.error(err.message);
         } finally {
-            setIsLoading(false); 
+            setIsLoading(false);
         }
     };
-
+    const handleCertificateUpload = async (event, index, section) => {
+        setIsLoading(true);
+        const file = event.target.files[0];
+        if (!file) {
+            setIsLoading(false);
+            return;
+        }
+    
+        try {
+            const uploadedUrl = await uploadImageToCloudinary(file);
+            setFormData(prevFormData => {
+                const updatedSection = prevFormData[section].map((item, itemIndex) => {
+                    if (index === itemIndex) {
+                        return { ...item, certificate: uploadedUrl.url };
+                    }
+                    return item;
+                });
+                return { ...prevFormData, [section]: updatedSection };
+            });
+            toast.success("Certificate uploaded successfully");
+        } catch (error) {
+            toast.error("Failed to upload certificate");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
 
     const addItem = (key, item) => {
         setFormData(prevFormData => ({ ...prevFormData, [key]: [...prevFormData[key], item] }))
@@ -137,11 +163,15 @@ const Profile = (doctorData) => {
 
     const addExperience = (e) => {
         e.preventDefault();
-        addItem('experiences', { startingDate: "", endingDate: "", position: "", hospital: "" });
+        addItem('experiences', { startingDate: "", endingDate: "", position: "", hospital: "", certificate: "" });
     }
     const handleExperienceChange = (event, index) => {
-        handleReusableInputChangeFunc('experiences', event, index);
-    }
+        if (event.target.name === "certificate") {
+            handleCertificateUpload(event, index, 'experiences');
+        } else {
+            handleReusableInputChangeFunc('experiences', event, index);
+        }
+    };
     const deleteExperiences = (e, index) => {
         e.preventDefault();
         deleteItem('experiences', index);
@@ -159,11 +189,16 @@ const Profile = (doctorData) => {
     }
     const addQualification = (e) => {
         e.preventDefault();
-        addItem('qualifications', { startingDate: "", endingDate: "", degree: "", university: "" });
+        addItem('qualifications', { startingDate: "", endingDate: "", degree: "", university: "", certificate: " " });
     }
     const handleQualificationChange = (event, index) => {
-        handleReusableInputChangeFunc('qualifications', event, index);
-    }
+        if (event.target.name === "certificate") {
+            handleCertificateUpload(event, index, 'qualifications');
+        } else {
+            handleReusableInputChangeFunc('qualifications', event, index);
+        }
+    };
+    
     const deleteQualification = (e, index) => {
         e.preventDefault();
         deleteItem('qualifications', index);
@@ -282,6 +317,7 @@ const Profile = (doctorData) => {
                                         value={item.startingDate}
                                         className='form__input'
                                         onChange={(e) => handleQualificationChange(e, index)}
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -292,6 +328,7 @@ const Profile = (doctorData) => {
                                         value={item.endingDate}
                                         className='form__input'
                                         onChange={(e) => handleQualificationChange(e, index)}
+                                        required
                                     />
                                 </div>
                             </div>
@@ -304,6 +341,7 @@ const Profile = (doctorData) => {
                                         value={item.degree}
                                         className='form__input'
                                         onChange={(e) => handleQualificationChange(e, index)}
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -314,8 +352,25 @@ const Profile = (doctorData) => {
                                         value={item.university}
                                         className='form__input'
                                         onChange={(e) => handleQualificationChange(e, index)}
+                                        required
                                     />
                                 </div>
+
+                                <div className="relative">
+                                    <p className="form__label">Certificate*</p>
+                                    <input
+                                        type="file"
+                                        name="certificate"
+                                        className="form__input opacity-0 absolute w-full h-full top-0 left-0 z-10 cursor-pointer"
+                                        onChange={(e) => handleQualificationChange(e, index)}
+
+                                    />
+                                    <label htmlFor="certificate" className="block bg-blue-500 text-white py-2 px-4 cursor-pointer text-center rounded transition-colors duration-300 ease-in-out hover:bg-blue-600">
+                                        Upload Certificate
+                                    </label>
+                                </div>
+
+
                             </div>
                             <button onClick={e => deleteQualification(e, index)} className='bg-red-600 p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer'><AiOutlineDelete /></button>
                         </div>
@@ -374,6 +429,19 @@ const Profile = (doctorData) => {
                                         className='form__input'
                                         onChange={(e) => handleExperienceChange(e, index)}
                                     />
+                                </div>
+                                <div className="relative">
+                                    <p className="form__label">Certificate*</p>
+                                    <input
+                                        type="file"
+                                        name="certificate"
+                                        className="form__input opacity-0 absolute w-full h-full top-0 left-0 z-10 cursor-pointer"
+                                        onChange={(e) => handleExperienceChange(e, index)}
+                                        
+                                    />
+                                    <label htmlFor="certificate" className="block bg-blue-500 text-white py-2 px-4 cursor-pointer text-center rounded transition-colors duration-300 ease-in-out hover:bg-blue-600">
+                                        Upload Certificate
+                                    </label>
                                 </div>
                             </div>
                             <button onClick={e => deleteExperiences(e, index)} className='bg-red-600 p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer'><AiOutlineDelete /></button>
@@ -469,12 +537,12 @@ const Profile = (doctorData) => {
                     </div>
                 </div>
                 <div className="mt-7">
-                     <button
-                    type="submit"
-                    className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
-                >
-                    {isLoading ? <HashLoader color="#ffffff" loading={isLoading} size={20} /> : 'Update Profile'}
-                </button>
+                    <button
+                        type="submit"
+                        className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
+                    >
+                        {isLoading ? <HashLoader color="#ffffff" loading={isLoading} size={20} /> : 'Update Profile'}
+                    </button>
 
                 </div>
             </form>
