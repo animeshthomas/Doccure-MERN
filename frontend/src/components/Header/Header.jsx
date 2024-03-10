@@ -33,7 +33,8 @@ const Header = () => {
     window.addEventListener('scroll', () => {
       if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
         headerRef.current.classList.add('sticky__header');
-      } else {
+      } 
+      else {
         headerRef.current.classList.remove('sticky__header');
       }
     });

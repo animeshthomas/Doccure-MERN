@@ -3,11 +3,11 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import HashLoader from 'react-spinners/HashLoader';
-import { BASE_URL, token } from "../../config";
+import { BASE_URL, getUserId, token } from "../../config";
 
 const ProvidePrescription = () => {
   const { userid } = useParams(); 
-    const doctor = localStorage.getItem('userId');
+    const doctor = getUserId();
     console.log("UserId",userid,"DoctorId", doctor)
     const [formData, setFormData] = useState({
         doctor: doctor,
