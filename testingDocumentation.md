@@ -37,4 +37,4 @@ Below is a detailed table of API test cases including descriptions, dates, endpo
 | 31   | Query to doctor test       | 2024-02-19 | `/api/v1/users/send-query-to-doctor`                      | POST   | ✅          |
 | 32   | Upgrade to premium test    | 2024-03-29 | `/api/v1/users/upgrade-to-premium`                        | POST   | ✅          |
 
-Documentation Link: [API Test Documentation](https://example.com/test)
+Documentation Link: [API Test Documentation]([https://example.com/test](https://docs.google.com/spreadsheets/d/e/2PACX-1vQFwOWd2L6Bd6nVvdNxaIfKWZDzqi8Tg2yqq0KOScWHrJdPeOxdCpnt2Ou9ffOzIHVmSIJ7_SFgWUVs/pubhtml)https://docs.google.com/spreadsheets/d/e/2PACX-1vQFwOWd2L6Bd6nVvdNxaIfKWZDzqi8Tg2yqq0KOScWHrJdPeOxdCpnt2Ou9ffOzIHVmSIJ7_SFgWUVs/pubhtml)
