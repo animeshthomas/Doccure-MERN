@@ -1,36 +1,75 @@
+# API Testing Documentation
 
-| Name                           | API Endpoint                                               | Test Passed |
-|--------------------------------|------------------------------------------------------------|-------------|
-| Register                       | `POST /api/v1/auth/register`                               | [x]         |
-| Login                          | `POST /api/v1/auth/login`                                  | [x]         |
-| Confirm Email                  | `POST /api/v1/auth/confirm-email/:verificationToken`       | [x]         |
-| Get Checkout Session           | `POST /api/v1/bookings/checkout-session/:doctorId`         | [x]         |
-| Update Doctor                  | `PUT /api/v1/doctors/:id` (with doctor auth)               | [x]         |
-| Delete Doctor                  | `DELETE /api/v1/doctors/:id` (with doctor auth)            | [x]         |
-| Get All Doctors                | `GET /api/v1/doctors/`                                     | [x]         |
-| Get Single Doctor              | `GET /api/v1/doctors/:id`                                  | [x]         |
-| Get Doctor Profile             | `GET /api/v1/doctors/profile/me` (with doctor auth)        | [x]         |
-| Search Doctor                  | `GET /api/v1/doctors/searchresult`                         | [x]         |
-| Unapproved Doctors             | `GET /api/v1/doctors/unapproved`                           | [x]         |
-| Approve Doctor                 | `PUT /api/v1/doctors/approve/:id`                          | [x]         |
-| Reject Doctor                  | `PUT /api/v1/doctors/reject/:id`                           | [x]         |
-| Get Insights                   | `GET /api/v1/insights/`                                    | [x]         |
-| Get Chat Messages              | `POST /api/v1/chat/`                                       | [x]         |
-| Send Message To Doctor         | `POST /api/v1/chat/sendToDoctor`                           | [x]         |
-| Send Message To User           | `POST /api/v1/chat/sendToUser`                             | [x]         |
-| Get All Patients               | `GET /api/v1/chat/getAllPatients/:doctorId/`               | [x]         |
-| Provide Prescription           | `POST /api/v1/prescriptions/provide`                       | [x]         |
-| Get All Reviews                | `GET /api/v1/reviews/`                                     | [x]         |
-| Create Review                  | `POST /api/v1/reviews/` (with authentication)              | [x]         |
-| Get Doctor Reviews             | `GET /api/v1/reviews/doctor/:doctorId/reviews`             | [x]         |
-| Update User                    | `PUT /api/v1/users/:id` (with patient auth)                | [x]         |
-| Delete User                    | `DELETE /api/v1/users/:id` (with patient auth)             | [x]         |
-| Get All Users                  | `GET /api/v1/users/`                                       | [x]         |
-| Get Single User                | `GET /api/v1/users/:id` (with patient auth)                | [x]         |
-| Get User Profile               | `GET /api/v1/users/profile/me` (with patient auth)         | [x]         |
-| Get My Appointments            | `GET /api/v1/users/appointments/my-appointments` (patient auth) | [x]     |
-| Reset Password                 | `POST /api/v1/users/reset-password`                        | [x]         |
-| Forgot Password                | `POST /api/v1/users/forgot-password`                       | [x]         |
-| Send Query To Doctor           | `POST /api/v1/users/send-query-to-doctor`                  | [x]         |
-| Upgrade To Premium             | `POST /api/v1/users/upgrade-to-premium` (with patient auth)| [x]         |
 
+
+## Authentication
+
+| Endpoint                               | Method | Test Status |
+|----------------------------------------|--------|-------------|
+| `/api/v1/auth/register`                | POST   | ✅         |
+| `/api/v1/auth/login`                   | POST   | ✅         |
+| `/api/v1/auth/confirm-email/:verificationToken` | POST   | ✅         |
+
+## Bookings
+
+| Endpoint                                       | Method | Test Status |
+|------------------------------------------------|--------|-------------|
+| `/api/v1/bookings/checkout-session/:doctorId` | POST   | ✅         |
+
+## Doctors
+
+| Endpoint                                   | Method | Test Status |
+|--------------------------------------------|--------|-------------|
+| `/api/v1/doctors/`                         | GET    | ✅         |
+| `/api/v1/doctors/:id`                      | GET    | ✅         |
+| `/api/v1/doctors/profile/me`               | GET    | ✅         |
+| `/api/v1/doctors/:id`                      | PUT    | ✅         |
+| `/api/v1/doctors/:id`                      | DELETE | ✅         |
+| `/api/v1/doctors/searchresult`             | GET    | ✅         |
+| `/api/v1/doctors/unapproved`               | GET    | ✅         |
+| `/api/v1/doctors/approve/:id`              | PUT    | ✅         |
+| `/api/v1/doctors/reject/:id`               | PUT    | ✅         |
+
+## Insights
+
+| Endpoint               | Method | Test Status |
+|------------------------|--------|-------------|
+| `/api/v1/insights/`    | GET    | ✅         |
+
+## Chat
+
+| Endpoint                                   | Method | Test Status |
+|--------------------------------------------|--------|-------------|
+| `/api/v1/chat/`                            | POST   | ✅         |
+| `/api/v1/chat/sendToDoctor`                | POST   | ✅         |
+| `/api/v1/chat/sendToUser`                  | POST   | ✅         |
+| `/api/v1/chat/getAllPatients/:doctorId/`   | GET    | ✅         |
+
+## Prescriptions
+
+| Endpoint                                     | Method | Test Status |
+|----------------------------------------------|--------|-------------|
+| `/api/v1/prescriptions/provide`              | POST   | ✅         |
+
+## Reviews
+
+| Endpoint                                          | Method | Test Status |
+|---------------------------------------------------|--------|-------------|
+| `/api/v1/reviews/`                                | GET    | ✅         |
+| `/api/v1/reviews/`                                | POST   | ✅         |
+| `/api/v1/reviews/doctor/:doctorId/reviews`        | GET    | ✅         |
+
+## Users
+
+| Endpoint                                             | Method | Test Status |
+|------------------------------------------------------|--------|-------------|
+| `/api/v1/users/`                                     | GET    | ✅         |
+| `/api/v1/users/:id`                                  | GET    | ✅         |
+| `/api/v1/users/profile/me`                           | GET    | ✅         |
+| `/api/v1/users/:id`                                  | PUT    | ✅         |
+| `/api/v1/users/:id`                                  | DELETE | ✅         |
+| `/api/v1/users/appointments/my-appointments`         | GET    | ✅         |
+| `/api/v1/users/reset-password`                       | POST   | ✅         |
+| `/api/v1/users/forgot-password`                      | POST   | ✅         |
+| `/api/v1/users/send-query-to-doctor`                 | POST   | ✅         |
+| `/api/v1/users/upgrade-to-premium`                   | POST   | ✅         |
