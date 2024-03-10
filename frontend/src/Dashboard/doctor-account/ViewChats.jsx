@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BASE_URL, getUserId } from '../../config';
+import { formatDistanceToNow } from 'date-fns';
 
 const ViewChats = () => {
     const [patients, setPatients] = useState([]);
@@ -76,7 +77,7 @@ const ViewChats = () => {
                             <div className="flex items-center justify-between">
                                 <h5 className="text-lg font-semibold text-gray-900">{patient.name}</h5>
                                 <span className="text-sm text-gray-500">
-                                    {patient.lastMessageTime ? new Date(patient.lastMessageTime).toLocaleTimeString([], { timeStyle: 'short' }) : ""}
+                                    {formatDistanceToNow(new Date(patient.lastMessageTime), { addSuffix: true })}
                                 </span>
                             </div>
                             <p className="text-gray-500">{patient.lastMessage || "No messages yet"}</p>
