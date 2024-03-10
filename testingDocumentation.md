@@ -1,6 +1,7 @@
 ## API Test Cases
 
 Below is a detailed table of API test cases including descriptions, dates, endpoints, methods, and their test status.
+[![Google Sheets](https://img.shields.io/badge/-Documentation-blue?style=for-the-badge&logo=google&logoColor=white)](https://docs.google.com/spreadsheets/d/e/2PACX-1vQFwOWd2L6Bd6nVvdNxaIfKWZDzqi8Tg2yqq0KOScWHrJdPeOxdCpnt2Ou9ffOzIHVmSIJ7_SFgWUVs/pubhtml)
 
 | S.No | Description                | Date       | Endpoint                                                  | Method | Test Status |
 |------|----------------------------|------------|-----------------------------------------------------------|--------|-------------|
@@ -37,4 +38,3 @@ Below is a detailed table of API test cases including descriptions, dates, endpo
 | 31   | Query to doctor test       | 2024-02-19 | `/api/v1/users/send-query-to-doctor`                      | POST   | ✅          |
 | 32   | Upgrade to premium test    | 2024-03-29 | `/api/v1/users/upgrade-to-premium`                        | POST   | ✅          |
 
-[![Documentation](https://img.shields.io/badge/-Documentation-blue?style=for-the-badge&logo=google&logoColor=white)](https://docs.google.com/spreadsheets/d/e/2PACX-1vQFwOWd2L6Bd6nVvdNxaIfKWZDzqi8Tg2yqq0KOScWHrJdPeOxdCpnt2Ou9ffOzIHVmSIJ7_SFgWUVs/pubhtml)
