@@ -23,7 +23,7 @@ Welcome to Doccure, your ultimate destination for hassle-free doctor appointment
 
 🚧 **Works are going on behind the scenes to make Doccure even more amazing! Stay tuned for updates.**
 
-[![Google Sheets](https://img.shields.io/badge/-Testing-Documentation-blue?style=for-the-badge&logo=google&logoColor=white)](https://docs.google.com/spreadsheets/d/e/2PACX-1vQFwOWd2L6Bd6nVvdNxaIfKWZDzqi8Tg2yqq0KOScWHrJdPeOxdCpnt2Ou9ffOzIHVmSIJ7_SFgWUVs/pubhtml)
+[![Google Sheets](https://img.shields.io/badge/-Documentation-blue?style=for-the-badge&logo=google&logoColor=white)](https://docs.google.com/spreadsheets/d/e/2PACX-1vQFwOWd2L6Bd6nVvdNxaIfKWZDzqi8Tg2yqq0KOScWHrJdPeOxdCpnt2Ou9ffOzIHVmSIJ7_SFgWUVs/pubhtml)
 
 
 ## Installation and Environment Setup Guide 🔧
