@@ -77,6 +77,7 @@ const Login = () => {
         setLoading(false);
         toast.success("Welcome " + result.data.name + "!");
         navigate('/home');
+        window.location.reload();
 
       } catch (err) {
         toast.error(err.message);

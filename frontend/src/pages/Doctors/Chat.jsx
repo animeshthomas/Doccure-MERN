@@ -48,6 +48,7 @@ const Chat = ({ doctorId }) => {
             // Optimistic update (assuming message format)
             setMessages([...messages, { sender: userId, message: newMessage }]);
             setNewMessage('');
+            window.location.reload();
         } catch (err) {
             setError('Could not send message');
         }
