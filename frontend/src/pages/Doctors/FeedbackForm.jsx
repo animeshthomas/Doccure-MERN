@@ -18,7 +18,6 @@ const FeedbackForm = () => {
   const handleSubmitReview = async e => {
     e.preventDefault()
     setLoading(true)
-  
     try {
       if (!rating || !reviewText) {
         toast.error("Please rate and write a review")

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { formateDate } from "../../utils/formateDate";
 import { AiFillStar } from "react-icons/ai";
 import FeedbackForm from "./FeedbackForm";
+import { getUserId } from "../../config";
 
 const Feedback = ({ reviews, totalRating }) => {
     console.log(reviews)
     const [showFeedbackForm, setShowFeedbackForm] = useState(false);
-
+    const userid = getUserId()
+    const role = localStorage.getItem('role')
     return (
         <div>
             <div className="mb-[50px]">
@@ -26,7 +28,7 @@ const Feedback = ({ reviews, totalRating }) => {
                                     {review?.user?.name}
                                 </h5>
                                 <p className="text-[14px] leading-6 text-textColor">
-                                  {formateDate(review?.createdAt)}
+                                    {formateDate(review?.createdAt)}
                                 </p>
                                 <p className="text__para mt-3 font-medium text-[15px]">
                                     {review.reviewText}
@@ -42,8 +44,7 @@ const Feedback = ({ reviews, totalRating }) => {
                     </div>
                 ))}
             </div>
-
-            {!showFeedbackForm && (
+            {role === "patient" && !showFeedbackForm && (
                 <div className="text-center">
                     <button className="btn" onClick={() => setShowFeedbackForm(true)}>
                         Give Feedback
@@ -52,6 +53,8 @@ const Feedback = ({ reviews, totalRating }) => {
             )}
 
             {showFeedbackForm && <FeedbackForm />}
+
+
         </div>
     );
 }

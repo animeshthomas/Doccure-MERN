@@ -11,7 +11,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [availableTimesForSelectedDate, setAvailableTimesForSelectedDate] = useState([]);
-
+  const role = localStorage.getItem('role');
   useEffect(() => {
     if (selectedDate) {
       const formattedSelectedDate = new Date(selectedDate).toLocaleDateString('en-US', {
