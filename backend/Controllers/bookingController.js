@@ -89,7 +89,7 @@ export const getCheckoutSession = async (req, res) => {
             user: user._id,
             ticketPrice: doctor.ticketPrice,
             status: 'pending', // Assume initial status is pending until payment is confirmed
-            isPaid: false, // Initially, payment is not confirmed
+            isPaid: true, // Initially, payment is not confirmed
             session: session.id,
             appointmentDate,
             appointmentTime
