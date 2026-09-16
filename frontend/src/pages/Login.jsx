@@ -4,10 +4,9 @@ import { BASE_URL } from '../config'
 import { toast } from 'react-toastify'
 import { authContext } from '../context/AuthContext.jsx'
 import HashLoader from 'react-spinners/HashLoader.js'
-
+import { BiEnvelope, BiLockAlt } from 'react-icons/bi'
 
 const Login = () => {
-
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -25,7 +24,7 @@ const Login = () => {
     event.preventDefault();
     setLoading(true);
 
-    // Check if email is admin and password is 123
+    // Check if email is admin and password is 1234
     if (formData.email === 'admin@gmail.com' && formData.password === '1234') {
       navigate('/home');
       setLoading(false);
@@ -35,13 +34,12 @@ const Login = () => {
           user: 'Admin Medicare',
           token: 'admToken',
           role: 'admin',
-          userid:'0'
+          userid: '0'
         }
       });
       toast.success('Welcome Medicare Admin!');
       return;
-    }
-    else {
+    } else {
       try {
         const res = await fetch(`${BASE_URL}/auth/login`, {
           method: 'post',
@@ -67,12 +65,6 @@ const Login = () => {
             role: result.role,
           }
         });
-        console.log(result)
-        console.log(result.userId)
-        const userId=result.userId
-        const isPremiumUser=result.isPremiumUser
-        // localStorage.setItem('userId', userId);
-        // localStorage.setItem('premiumstatus', isPremiumUser);
 
         setLoading(false);
         toast.success("Welcome " + result.data.name + "!");
@@ -84,68 +76,80 @@ const Login = () => {
         setLoading(false);
       }
     }
-
   }
 
-
-
   return (
-    <section className="px-5 lg:px-0">
-      <div className="w-full max-w-[570px] mx-auto rounded-lg shadow-md md:p-10">
-        <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10 text-center">
-          Hello! <span className="text-primaryColor">Welcome</span> Back
-        </h3>
-
-        <form className="py-4 md:py-0" onSubmit={submitHandler}>
-          <div className="mb-5">
-            <input
-              type="email"
-              placeholder="Enter your Email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              className="w-full py-3 border-b border-solid border-[#0066ff61] 
-              focus:outline-none focus:border-b-primaryColor text-[16px] leading-7
-              text-headingColor placeholder:text-textColor cursor-pointer"
-              required
-            />
+    <section className="py-14 lg:py-20 bg-gradient-to-b from-blue-50/50 via-white to-white flex items-center justify-center min-h-[calc(100vh-80px)]">
+      <div className="w-full max-w-[500px] mx-auto px-4">
+        <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-100 shadow-2xl animate-fadeIn">
+          <div className="text-center mb-8">
+            <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3.5 py-1.5 rounded-full inline-block mb-3">
+              Secure Access
+            </span>
+            <h2 className="text-[26px] sm:text-[30px] font-[800] text-headingColor tracking-tight">
+              Welcome Back
+            </h2>
+            <p className="text-slate-500 text-sm mt-1">
+              Sign in to manage your clinical consultations & records.
+            </p>
           </div>
 
-          <div className="mb-5">
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              className="w-full py-3 border-b border-solid border-[#0066ff61] 
-              focus:outline-none focus:border-b-primaryColor text-[16px] leading-7
-              text-headingColor placeholder:text-textColor cursor-pointer"
-              required
-            />
-          </div>
+          <form onSubmit={submitHandler} className="space-y-5">
+            <div>
+              <label className="form__label">Email Address</label>
+              <div className="relative flex items-center">
+                <BiEnvelope className="absolute left-3.5 text-slate-400 w-5 h-5" />
+                <input
+                  type="email"
+                  placeholder="name@example.com"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="form__input pl-11"
+                  required
+                />
+              </div>
+            </div>
 
-          <div className="mt-7">
-            <button type="submit" className="w-full bg-primaryColor text-white text-[18px] 
-            leading-[30px] rounded-lg px-4 py-3">
-              {loading ? <HashLoader size={25} color="#fff" /> : "Login"}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="form__label mb-0">Password</label>
+                <Link to='/forgot-password' className="text-xs text-primaryColor font-semibold hover:underline">
+                  Forgot Password?
+                </Link>
+              </div>
+              <div className="relative flex items-center">
+                <BiLockAlt className="absolute left-3.5 text-slate-400 w-5 h-5" />
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="form__input pl-11"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn w-full py-3.5 mt-4 text-[16px]"
+            >
+              {loading ? <HashLoader size={22} color="#fff" /> : "Sign In to Account"}
             </button>
-          </div>
 
-          <p className="mt-5 text-textColor text-center">
-            Don&apos;t have an account?
-            <Link to='/register' className="text-primaryColor font-medium ml-1">
-              Register
-            </Link>
-          </p>
-          <p className="mt-5 text-textColor text-center">
-            Forgot your password?
-            <Link to='/forgot-password' className="text-primaryColor font-medium ml-1">
-              Reset
-            </Link>
-          </p>
-
-        </form>
+            <div className="pt-4 border-t border-slate-100 text-center">
+              <p className="text-sm text-slate-500">
+                Don&apos;t have an account?{' '}
+                <Link to='/register' className="text-primaryColor font-bold hover:underline">
+                  Create an Account
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   )

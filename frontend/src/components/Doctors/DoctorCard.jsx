@@ -4,63 +4,62 @@ import { Link } from "react-router-dom"
 import { BsArrowRight } from 'react-icons/bs'
 
 const DoctorCard = ({ doctor }) => {
+  const { name, averageRating, totalRating, photo, specialization, experiences } = doctor
 
-    const { name, averageRating, totalRating, photo, specialization, experiences } = doctor
-    return (
-        <div className="p-3 lg:p-5 relative">
-            <div className="relative">
-                <img src={photo} className="w-full" alt={name} />
-                {averageRating > 4.5 && (
-                    <div className="absolute top-0 right-0 bg-red-600 text-white py-1 px-3 text-sm rounded-bl-lg shadow-md hover:bg-red-700 transition duration-300 ease-in-out transform hover:-translate-y-1">
-                        Top Rated 
-                    </div>
-                )}
+  return (
+    <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-100 shadow-sm hover-lift transition-all duration-300 group flex flex-col justify-between">
+      <div>
+        <div className="relative overflow-hidden rounded-xl bg-slate-100 aspect-[4/3] sm:aspect-square mb-4">
+          <img 
+            src={photo || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=80"} 
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+            alt={name} 
+          />
+          {averageRating > 4.5 && (
+            <div className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-rose-600 text-white text-xs font-semibold py-1 px-3 rounded-full shadow-md">
+              ★ Top Rated
             </div>
-            <h2 className="text-[18px] leading-[30px] lg:text-[26px] lg:leading-9 
-        text-headingColor font-[700] mt-3 lg:mt-5">
-                {name}
-            </h2>
-
-            <div className="mt-2 lg:mt-4 flex items-center justify-between">
-                <span className="bg-[#CCF0F3] text-blue-400 py-1 px-2 lg:py-2 lg:px-6 text-[12px] 
-            leading-4 lg:text-[16px] lg:leading-7 font-semibold rounded">
-                    {specialization}
-                </span>
-
-                <div className="flex items-center gap-[6px]">
-                    <span className="flex items-center gap-[6px] text-[14px] leading-6 lg:text-[16px] lg:leading-7  font-semibold text-headingColor">
-                        <img src={starIcon} alt="" /> {averageRating.toFixed(2)}
-                    </span>
-
-                    <span className="text-[14px] leading-6 lg:text-[16px]
-                lg:leading-7 font-[400] text-textColor">
-                        ({totalRating})
-                    </span>
-                </div>
-            </div>
-
-            <div className="mt-[18px] lg:mt-5 flex items-center justify-between">
-                <div>
-                    {/* <h3 className="text-[16px] leading-7 lg:text-[18px] lg:leading-[30px] font-semibold
-                text-headingColor">
-                    +{totalPatients} patients
-                </h3> */}
-                    <p className="text-[14px] leading-6 font-[400] text-textColor">
-                        At {experiences && experiences[0]?.hospital}
-                    </p>
-                </div>
-
-                <Link
-                    to={`/doctors/${doctor._id}`}
-                    className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E]
-                flex items-center justify-center group hover:bg-primaryColor hover:border-none"
-                >
-                    <BsArrowRight className="group-hover:text-white w-6 h-5" />
-                </Link>
-            </div>
-
+          )}
         </div>
-    )
+
+        <h3 className="text-[19px] sm:text-[22px] font-[700] text-headingColor tracking-tight group-hover:text-primaryColor transition-colors duration-200">
+          {name}
+        </h3>
+
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <span className="bg-primaryColor/10 text-primaryColor py-1 px-3 text-[13px] font-semibold rounded-full">
+            {specialization || "General Medicine"}
+          </span>
+
+          <div className="flex items-center gap-1.5 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-100/60">
+            <img src={starIcon} alt="Rating star" className="w-3.5 h-3.5" />
+            <span className="text-[13px] font-bold text-slate-800">
+              {Number(averageRating || 0).toFixed(1)}
+            </span>
+            <span className="text-[12px] text-slate-400 font-normal">
+              ({totalRating || 0})
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-5 pt-4 border-t border-slate-50 flex items-center justify-between">
+        <div>
+          <p className="text-[13px] text-slate-500 font-medium">
+            {experiences && experiences[0]?.hospital ? `At ${experiences[0].hospital}` : 'Doccure Medical Center'}
+          </p>
+        </div>
+
+        <Link
+          to={`/doctors/${doctor._id}`}
+          className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 group-hover:bg-primaryColor group-hover:text-white transition-all duration-300 shadow-sm"
+          aria-label={`View details for ${name}`}
+        >
+          <BsArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+        </Link>
+      </div>
+    </div>
+  )
 }
 
 export default DoctorCard

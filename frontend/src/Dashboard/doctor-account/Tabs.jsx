@@ -16,37 +16,51 @@ const Tabs = ({ tab, setTab }) => {
 
     return (
         <div>
-            <span className='lg:hidden'>
-                <BiMenu className='w-6 h-6 cursor-pointer' />
-            </span>
-            <div className='hidden lg:flex flex-col p-[30px] bg-white shadow-panelShadow items-center h-max rounded-md'>
+            <div className='flex lg:flex-col gap-2 p-3 lg:p-6 bg-white border border-slate-100 shadow-xl rounded-3xl overflow-x-auto lg:overflow-visible'>
                 <button
                     onClick={() => setTab('overview')}
-                    className={`${tab === "overview" ? "bg-indigo-100 text-primaryColor" : "bg-transparent text-headingColor"} w-full btn mt-0 rounded-md`}>
+                    className={`w-full py-3 px-5 text-sm font-semibold rounded-2xl transition-all whitespace-nowrap text-left ${
+                        tab === "overview"
+                            ? "bg-primaryColor text-white shadow-md shadow-primaryColor/25"
+                            : "text-slate-600 hover:bg-slate-100"
+                    }`}>
                     Overview
                 </button>
                 <button
                     onClick={() => setTab('appointments')}
-                    className={`${tab === "appointments" ? "bg-indigo-100 text-primaryColor" : "bg-transparent text-headingColor"} w-full btn mt-0 rounded-md`}>
+                    className={`w-full py-3 px-5 text-sm font-semibold rounded-2xl transition-all whitespace-nowrap text-left ${
+                        tab === "appointments"
+                            ? "bg-primaryColor text-white shadow-md shadow-primaryColor/25"
+                            : "text-slate-600 hover:bg-slate-100"
+                    }`}>
                     Appointments
                 </button>
                 <button
                     onClick={() => setTab('chat')}
-                    className={`${tab === "chat" ? "bg-indigo-100 text-primaryColor" : "bg-transparent text-headingColor"} w-full btn mt-0 rounded-md`}>
-                    View Chat
+                    className={`w-full py-3 px-5 text-sm font-semibold rounded-2xl transition-all whitespace-nowrap text-left ${
+                        tab === "chat"
+                            ? "bg-primaryColor text-white shadow-md shadow-primaryColor/25"
+                            : "text-slate-600 hover:bg-slate-100"
+                    }`}>
+                    Patient Chats
                 </button>
                 <button
                     onClick={() => setTab('settings')}
-                    className={`${tab === "settings" ? "bg-indigo-100 text-primaryColor" : "bg-transparent text-headingColor"} w-full btn mt-0 rounded-md`}>
-                    Profile
+                    className={`w-full py-3 px-5 text-sm font-semibold rounded-2xl transition-all whitespace-nowrap text-left ${
+                        tab === "settings"
+                            ? "bg-primaryColor text-white shadow-md shadow-primaryColor/25"
+                            : "text-slate-600 hover:bg-slate-100"
+                    }`}>
+                    Doctor Profile
                 </button>
-                <div className="mt-[100px] w-full">
+
+                <div className="hidden lg:block mt-12 pt-6 border-t border-slate-100 w-full space-y-2.5">
                     <button 
                         onClick={handleLogout}
-                        className="w-full bg-[#181A1E] p-3 text-[16px] leading-7 rounded-md text-white">
+                        className="w-full py-3 text-sm font-semibold rounded-2xl bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-md">
                         Logout
                     </button>
-                    <button className="w-full bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md text-white">
+                    <button className="w-full py-2.5 text-xs font-semibold rounded-2xl text-red-600 hover:bg-red-50 transition-colors">
                         Delete account
                     </button>
                 </div>

@@ -1,42 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import HashLoader from 'react-spinners/HashLoader';
-import convertTime from '../../utils/covertTime'; // corrected typo in the import
+import convertTime from '../../utils/covertTime';
 import { BASE_URL, token } from '../../config';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { BsCalendarCheck, BsClock, BsShieldCheck } from 'react-icons/bs';
 
 const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
-
   const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [availableTimesForSelectedDate, setAvailableTimesForSelectedDate] = useState([]);
-  const role = localStorage.getItem('role');
+
   useEffect(() => {
     if (selectedDate) {
       const formattedSelectedDate = new Date(selectedDate).toLocaleDateString('en-US', {
         weekday: 'long'
       }).toLowerCase();
 
-      const selectedDayTimeSlots = timeSlots.filter(slot => slot.day.toLowerCase() === formattedSelectedDate);
+      const selectedDayTimeSlots = timeSlots?.filter(slot => slot.day.toLowerCase() === formattedSelectedDate) || [];
       setAvailableTimesForSelectedDate(selectedDayTimeSlots);
       setSelectedTime('');
     }
   }, [selectedDate, timeSlots]);
+
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
     let month = today.getMonth() + 1;
     let day = today.getDate();
-
-    // Add leading zeros to single-digit months and days
-    if (month < 10) {
-      month = '0' + month;
-    }
-    if (day < 10) {
-      day = '0' + day;
-    }
-
+    if (month < 10) month = '0' + month;
+    if (day < 10) day = '0' + day;
     return `${year}-${month}-${day}`;
   };
 
@@ -51,8 +45,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
       });
       const data = await response.json();
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Something went wrong');
+        throw new Error(data.message || 'Something went wrong');
       }
       window.location.reload();
       toast.success(data.message);
@@ -62,6 +55,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
       setIsLoading(false);
     }
   };
+
   const bookingHandler = async () => {
     try {
       if (!selectedDate || !selectedTime) {
@@ -81,15 +75,10 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
         })
       });
       const data = await response.json();
-      console.log(data)
-      if(!response.ok && response.status === 400) {
-        throw new Error(data.message);
-      }
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Something went wrong');
+        throw new Error(data.message || 'Something went wrong');
       }
-      if (data.session.url) {
+      if (data.session?.url) {
         window.location.href = data.session.url;
       }
     } catch (error) {
@@ -98,100 +87,123 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots, isApproved }) => {
       setIsLoading(false);
     }
   };
+
   const userId = localStorage.getItem('userId');
 
   return (
-    <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
-      <div className="flex items-center justify-between">
-        <p className="text__para mt-0 font-semibold">Ticket Price</p>
-        <span className="text-[16px] leading-7 lg:text-[22px] lg:leading-8 text-headingColor font-bold">
-          {ticketPrice} Rupees
+    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xl sticky top-24">
+      {/* Price Header */}
+      <div className="flex items-center justify-between pb-5 border-b border-slate-100">
+        <div>
+          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Consultation Fee</span>
+          <p className="text-2xl font-[800] text-headingColor tracking-tight mt-0.5">
+            ₹{ticketPrice} <span className="text-xs font-medium text-slate-500">/ session</span>
+          </p>
+        </div>
+        <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-emerald-100">
+          <BsShieldCheck className="w-3.5 h-3.5" /> Verified
         </span>
       </div>
 
-      <div className="mt-[30px]">
-        <p className="text__para mt-0 font-semibold text-headingColor">Available Time Slots:</p>
+      {/* Available Slots Overview */}
+      <div className="mt-6">
+        <h4 className="text-sm font-bold text-headingColor flex items-center gap-1.5 mb-3">
+          <BsClock className="w-4 h-4 text-primaryColor" /> Available Schedule
+        </h4>
 
-        <ul className="mt-3">
-          {timeSlots?.map((item, index) => (
-            <li className="flex items-center justify-between mb-2" key={index}>
-              <p className="text-[15px] leading-6 text-textColor font-semibold">
-                {item.day.charAt(0).toUpperCase() + item.day.slice(1)}
-              </p>
-              <p className="text-[15px] leading-6 text-textColor font-semibold">
-                {convertTime(item.startingTime)} - {convertTime(item.endingTime)}
-              </p>
-            </li>
-          ))}
-        </ul>
+        {timeSlots && timeSlots.length > 0 ? (
+          <ul className="space-y-2 max-h-36 overflow-y-auto pr-1">
+            {timeSlots.map((item, index) => (
+              <li className="flex items-center justify-between text-xs py-1.5 px-2.5 rounded-lg bg-slate-50 text-slate-700 font-medium" key={index}>
+                <span className="capitalize font-semibold text-headingColor">{item.day}</span>
+                <span className="text-slate-500">{convertTime(item.startingTime)} - {convertTime(item.endingTime)}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-xs text-slate-400 italic">No scheduled time slots specified.</p>
+        )}
       </div>
 
-      <div className="mt-4">
-        <label htmlFor="appointmentDate" className="block text-lg font-semibold text-gray-700">
-          Appointment Date:
+      {/* Date Picker */}
+      <div className="mt-6">
+        <label htmlFor="appointmentDate" className="form__label text-xs">
+          Select Appointment Date
         </label>
         <input
           type="date"
           id="appointmentDate"
-          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2"
+          className="form__input text-sm py-2.5"
           value={selectedDate}
           min={getCurrentDate()}
           onChange={(e) => setSelectedDate(e.target.value)}
         />
-
       </div>
 
-      {availableTimesForSelectedDate.length > 0 && (
-        <div className="mt-4">
-          <label htmlFor="appointmentTime" className="block text-lg font-semibold text-gray-700">
-            Appointment Time:
+      {/* Time Slot Selector */}
+      {selectedDate && (
+        <div className="mt-4 animate-slideDown">
+          <label htmlFor="appointmentTime" className="form__label text-xs">
+            Select Appointment Slot
           </label>
-          <select
-            id="appointmentTime"
-            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2"
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-          >
-            <option value="">Select a time</option>
-            {availableTimesForSelectedDate.map((timeSlot, index) => (
-              <option key={index} value={timeSlot.startingTime}>
-                {convertTime(timeSlot.startingTime)} - {convertTime(timeSlot.endingTime)}
-              </option>
-            ))}
-          </select>
+          {availableTimesForSelectedDate.length > 0 ? (
+            <select
+              id="appointmentTime"
+              className="form__input text-sm py-2.5 font-medium"
+              value={selectedTime}
+              onChange={(e) => setSelectedTime(e.target.value)}
+            >
+              <option value="">Choose a slot</option>
+              {availableTimesForSelectedDate.map((timeSlot, index) => (
+                <option key={index} value={timeSlot.startingTime}>
+                  {convertTime(timeSlot.startingTime)} - {convertTime(timeSlot.endingTime)}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <p className="text-xs text-amber-600 bg-amber-50 p-2.5 rounded-xl border border-amber-100">
+              No consultation slots available on this day. Please pick another date.
+            </p>
+          )}
         </div>
       )}
 
-      {console.log(userId)}
-      {userId === "null" ? (
-        <Link to="/login">
-          <button className="btn px-2 w-full rounded-md mt-4">
-            Login to book appointment
-          </button>
-        </Link>
-      ) : (
-        isApproved === "approved" ? (
-          <button onClick={bookingHandler} className="btn px-2 w-full rounded-md mt-4">
+      {/* Action Buttons */}
+      <div className="mt-6 pt-4 border-t border-slate-100">
+        {!userId || userId === "null" ? (
+          <Link to="/login" className="block">
+            <button className="btn w-full py-3 text-sm rounded-xl">
+              Sign In to Book Appointment
+            </button>
+          </Link>
+        ) : isApproved === "approved" ? (
+          <button 
+            onClick={bookingHandler} 
+            disabled={isLoading || !selectedDate || !selectedTime}
+            className="btn w-full py-3 text-sm rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             {isLoading ? (
               <HashLoader color="#ffffff" loading={isLoading} size={20} />
             ) : (
-              'Book Appointment'
+              <span className="inline-flex items-center gap-2">
+                <BsCalendarCheck className="w-4 h-4" /> Book Appointment
+              </span>
             )}
           </button>
-        ) : (
-          isApproved === "pending" ? (
-            <button onClick={verifyDoctorHandler} className="btn px-2 w-full rounded-md mt-4">
-              {isLoading ? (
-                <HashLoader color="#ffffff" loading={isLoading} size={20} />
-              ) : (
-                'Verify Doctor'
-              )}
-            </button>
-          ) : null
-        )
-      )}
-
-
+        ) : isApproved === "pending" ? (
+          <button 
+            onClick={verifyDoctorHandler} 
+            disabled={isLoading}
+            className="btn w-full py-3 text-sm rounded-xl bg-amber-500 hover:bg-amber-600"
+          >
+            {isLoading ? (
+              <HashLoader color="#ffffff" loading={isLoading} size={20} />
+            ) : (
+              'Verify & Approve Doctor'
+            )}
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 };

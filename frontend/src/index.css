@@ -2,64 +2,109 @@
 @tailwind components;
 @tailwind utilities; 
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-@layer base{
-    section{
-        @apply py-[75px]
-    }
+  body {
+    @apply text-textColor bg-[#FCFCFD] font-sans antialiased;
+  }
+
+  section {
+    @apply py-[65px] lg:py-[85px];
+  }
+
+  /* Modern custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0067FF;
+  }
 }
 
-@layer components{
-    .container {
-        @apply max-w-full w-[1440px] px-5 mx-auto
-    }
+@layer components {
+  .container {
+    @apply max-w-full w-[1440px] px-5 sm:px-8 mx-auto;
+  }
 
-    .btn{
-        @apply bg-primaryColor py-[15px] px-[35px] rounded-[50px] text-white font-[600] mt-[38px]
-    }
+  .btn {
+    @apply bg-primaryColor hover:bg-primaryDark text-white py-[14px] px-[32px] rounded-full font-[600] 
+    inline-flex items-center justify-center gap-2 transition-all duration-300 transform active:scale-95 shadow-cardGlow hover:shadow-cardHover;
+  }
 
-    .heading{
-        @apply text-[44px] leading-[54px] font-[700] text-headingColor
-    }
+  .btn-outline {
+    @apply border-2 border-primaryColor text-primaryColor hover:bg-primaryColor hover:text-white py-[12px] px-[28px] rounded-full font-[600] 
+    inline-flex items-center justify-center gap-2 transition-all duration-300 active:scale-95;
+  }
 
-    .text__para{
-        @apply text-[18px] leading-[30px] font-[400] text-textColor mt-[18px]
-    }
+  .heading {
+    @apply text-[34px] leading-[44px] sm:text-[40px] sm:leading-[50px] lg:text-[48px] lg:leading-[58px] font-[800] text-headingColor tracking-tight;
+  }
 
-    .header{
-        @apply bg-[url('./assets/images/mask.png')] bg-no-repeat bg-center bg-cover w-full h-[100px] leading-[100px]
-    }
+  .text__para {
+    @apply text-[16px] sm:text-[18px] leading-[28px] sm:leading-[32px] font-[400] text-textColor mt-[16px];
+  }
 
-    .hero__section {
-        @apply bg-[url('./assets/images/hero-bg.png')] bg-no-repeat bg-center bg-cover
-    }
+  /* Glassmorphism utility */
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/60 shadow-xl rounded-2xl;
+  }
 
-    .form__label{
-        @apply text-textColor font-semibold text-[16px] leading-7 mb-2
-    }
+  .glass-panel {
+    @apply bg-white/90 backdrop-blur-lg border border-slate-100 shadow-2xl rounded-3xl;
+  }
 
-    .form__input{
-        @apply w-full px-4 py-3 border border-solid border-[#0066ff61] focus:outline-none focus:border-primaryColor
-        text-[16px] leading-7 text-headingColor placeholder:text-textColor cursor-pointer rounded-md
-    }
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-cardHover;
+  }
+
+  .header {
+    @apply bg-white/90 backdrop-blur-md border-b border-slate-100 w-full sticky top-0 z-50 transition-all duration-300;
+  }
+
+  .sticky__header {
+    @apply shadow-md bg-white/95 backdrop-blur-lg;
+  }
+
+  .form__label {
+    @apply text-headingColor font-medium text-[15px] leading-6 mb-2 block;
+  }
+
+  .form__input {
+    @apply w-full px-4 py-3 border border-slate-200 focus:outline-none focus:border-primaryColor focus:ring-4 focus:ring-primaryColor/10
+    text-[15px] leading-6 text-headingColor placeholder:text-slate-400 bg-white rounded-xl transition-all duration-200;
+  }
 }
 
-@media only screen and (max-width:1024px) {
-    .container{
-        @apply w-full
-    }
+@media only screen and (max-width: 1024px) {
+  .container {
+    @apply w-full px-5;
+  }
 
-    section {
-        @apply py-[35px]
-    }
+  section {
+    @apply py-[45px];
+  }
 }
 
-@media only screen and (max-width:768px) {
-    .heading {
-        @apply text-[26px] leading-[35px]
-    }
+@media only screen and (max-width: 768px) {
+  .heading {
+    @apply text-[28px] leading-[36px];
+  }
 
-    .text__para{
-        @apply text-[16px] leading-7 mt-3
-    }
+  .text__para {
+    @apply text-[15px] leading-6 mt-3;
+  }
 }

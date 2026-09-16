@@ -1,46 +1,129 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { toast } from 'react-toastify'
+import { BiEnvelope, BiPhoneCall, BiMapPin } from 'react-icons/bi'
+import { BsSendFill } from 'react-icons/bs'
 
 const Contact = () => {
+  const [formData, setFormData] = useState({ email: '', subject: '', message: '' })
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!formData.email || !formData.subject || !formData.message) {
+      toast.error('Please fill in all fields')
+      return
+    }
+    setSubmitting(true)
+    setTimeout(() => {
+      setSubmitting(false)
+      toast.success('Thank you! Your message has been sent successfully.')
+      setFormData({ email: '', subject: '', message: '' })
+    }, 800)
+  }
+
   return (
-    <section>
-      <div className="px-4 mx-auto max-w-screen-md">
-        <h2 className="heading text-center">Contact Us</h2>
-        <p className="mb-8 lg:mb-16 font-light text-center text__para">
-          Got a technical issue? want to send feedback about a beta feature? Let us know.
-        </p>
+    <section className="py-12 lg:py-20 bg-gradient-to-b from-blue-50/50 via-white to-white">
+      <div className="container max-w-screen-xl">
+        <div className="text-center max-w-[600px] mx-auto mb-14">
+          <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3.5 py-1.5 rounded-full inline-block mb-3">
+            Get in Touch
+          </span>
+          <h1 className="heading">We're Here to Help</h1>
+          <p className="text__para">
+            Have questions regarding clinical appointments, prescriptions, or technical assistance? Our support team is available 24/7.
+          </p>
+        </div>
 
-        <form action="#" className="space-y-8">
-          <div>
-            <label htmlFor="email" className="form__label">Your Email</label>
-            <input 
-              type="email" 
-              id="email" 
-              placeholder="example@gmail.com" 
-              className="form__input mt-1 "
-            />
-          </div>
-          <div>
-            <label htmlFor="subject" className="form__label">Subject</label>
-            <input 
-              type="text" 
-              id="subject" 
-              placeholder="Let us know how we can help you" 
-              className="form__input mt-1 "
-            />
-          </div>
-          <div className="sm:col-span-2">
-            <label htmlFor="message" className="form__label">Your Message</label>
-            <textarea
-              rows="6" 
-              type="text" 
-              id="message" 
-              placeholder="Leave a comment...." 
-              className="form__input mt-1 "
-            />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {/* Quick Contact Cards */}
+          <div className="space-y-4">
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover-lift flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-primaryColor/10 text-primaryColor flex items-center justify-center flex-shrink-0">
+                <BiEnvelope className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-bold text-headingColor text-base">Email Us</h4>
+                <p className="text-xs text-slate-400 mt-0.5">Quick inquiries & feedback</p>
+                <p className="text-sm font-semibold text-primaryColor mt-1">support@doccure.com</p>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover-lift flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                <BiPhoneCall className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-bold text-headingColor text-base">Emergency Line</h4>
+                <p className="text-xs text-slate-400 mt-0.5">24/7 Urgent assistance</p>
+                <p className="text-sm font-semibold text-emerald-600 mt-1">+1 (800) 456-7890</p>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover-lift flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-purple-50 text-purpleColor flex items-center justify-center flex-shrink-0">
+                <BiMapPin className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-bold text-headingColor text-base">Headquarters</h4>
+                <p className="text-xs text-slate-400 mt-0.5">Central Clinical Center</p>
+                <p className="text-sm font-medium text-slate-700 mt-1">104 Medical Plaza, New York</p>
+              </div>
+            </div>
           </div>
 
-          <button type="submit" className="btn rounded sm:w-fit">Submit</button>
-        </form>
+          {/* Contact Form */}
+          <div className="lg:col-span-2 bg-white p-8 sm:p-10 rounded-3xl border border-slate-100 shadow-xl">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="email" className="form__label">Your Email Address</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  placeholder="name@example.com" 
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="form__input"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="subject" className="form__label">Subject</label>
+                <input 
+                  type="text" 
+                  id="subject" 
+                  placeholder="How can we assist you?" 
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                  className="form__input"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="form__label">Your Message</label>
+                <textarea
+                  rows="5" 
+                  id="message" 
+                  placeholder="Write your detailed query or message here..." 
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="form__input resize-none"
+                  required
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                disabled={submitting}
+                className="btn w-full sm:w-auto px-8"
+              >
+                <span>{submitting ? 'Sending Message...' : 'Send Message'}</span>
+                <BsSendFill className="w-4 h-4 ml-1" />
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
   )

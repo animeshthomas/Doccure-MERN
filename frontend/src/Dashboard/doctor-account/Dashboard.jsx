@@ -15,19 +15,19 @@ const Dashboard = () => {
     const [tab, setTab] = useState('overview');
 
     return (
-        <section>
-            <div className='max-w-[1170px] px-5 mx-auto'>
+        <section className="py-12 bg-slate-50/50 min-h-[calc(100vh-80px)]">
+            <div className='max-w-[1200px] px-4 sm:px-6 mx-auto'>
                 {loading && !error && <Loading />}
                 {error && !loading && <Error errMessage={error} />}
                 {!loading && !error && (
-                    <div className='grid lg:grid-cols-3 gap-[30px] lg:gap-[50px]'>
+                    <div className='grid lg:grid-cols-3 gap-8'>
                         <Tabs tab={tab} setTab={setTab} />
-                        <div className='lg:col-span-2'>
+                        <div className='lg:col-span-2 bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xl'>
                             {data.isApproved === 'pending' && (
-                                <div className='flex p-4 mb-4 text-yellow-800 bg-yellow-50 rounded-lg'>
+                                <div className='flex items-center gap-3 p-4 mb-6 text-amber-900 bg-amber-50/80 border border-amber-200/60 rounded-2xl text-sm'>
                                     <svg
                                         aria-hidden="true"
-                                        className='flex-shrink-0 w-5 h-5'
+                                        className='flex-shrink-0 w-5 h-5 text-amber-600'
                                         fill="currentColor"
                                         viewBox="0 0 20 20"
                                         xmlns='http://www.w3.org/2000/svg'
@@ -38,48 +38,49 @@ const Dashboard = () => {
                                             clipRule="evenodd"
                                         />
                                     </svg>
-                                    <span className='sr-only'>Info</span>
-                                    <div className='ml-3 text-large font-medium'>
-                                        To get approval please complete your profile. We&apos;ll review manually and approve within 3days.
+                                    <div className='font-medium'>
+                                        To get verified approval please complete your profile details. Our medical board will review within 3 business days.
                                     </div>
                                 </div>
                             )}
-                            <div className='mt-8'>
+                            <div>
                                 {tab === 'overview' && (
-                                    <div>
-                                        <div className='flex items-center gap-4 mb-10'>
-                                            <figure className='max-w-[200px] max-h-[200px]'>
-                                                <img src={data?.photo} alt='' className='w-full' />
+                                    <div className="animate-fadeIn">
+                                        <div className='flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8 pb-8 border-b border-slate-100'>
+                                            <figure className='w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden shadow-md border border-slate-100 flex-shrink-0'>
+                                                <img src={data?.photo} alt='' className='w-full h-full object-cover' />
                                             </figure>
-                                            <div>
-                                                <span className='bg-[#CCF0F3] text-irisBlueColor py-1 px-4 lg:px-6 rounded text-[12px] leading-4 lg:text-[16px] lg:leading-6 font-semibold'>
-                                                    {data?.specialization}
+                                            <div className="text-center sm:text-left">
+                                                <span className='inline-block bg-primaryColor/10 text-primaryColor font-semibold text-xs px-3 py-1 rounded-full uppercase tracking-wider mb-2'>
+                                                    {data?.specialization || 'Specialist'}
                                                 </span>
-                                                <h3 className='text-[24px] leading-8 font-bold text-headingColor'>
+                                                <h3 className='text-[22px] sm:text-[26px] font-[800] text-headingColor tracking-tight'>
                                                     {data?.name}
                                                 </h3>
-                                                <p className='text-[15px] leading-6 text-headingColor'>
+                                                <p className='text-slate-500 text-sm font-medium mt-0.5'>
                                                     {data?.email}
                                                 </p>
-                                                <div className='flex items-center gap-[6px]'>
-                                                    <span className='flex items-center gap-[6px] text-headingColor text-[14px] leading-5 lg:text-[16px] lg-leading-6 font-semibold'>
-                                                        <img src={starIcon} alt="" />
-                                                        {data.averageRating !== undefined ? data.averageRating.toFixed(2) : ''}
+                                                <div className='flex items-center justify-center sm:justify-start gap-1.5 mt-2'>
+                                                    <img src={starIcon} alt="" className="w-4 h-4" />
+                                                    <span className='text-headingColor text-sm font-bold'>
+                                                        {data.averageRating !== undefined ? data.averageRating.toFixed(1) : '5.0'}
                                                     </span>
-                                                    <span className='text-textColor text-[14px] leading-5 lg:text-[16px] lg-leading-6 font-semibold'>
-                                                        ({data.totalRating} reviews)
+                                                    <span className='text-slate-400 text-xs'>
+                                                        ({data.totalRating || 0} reviews)
                                                     </span>
                                                 </div>
-                                                <p className='text__para font-[15px] lg:max-w-[390px] leading-6'>
-                                                    {data?.bio}
-                                                </p>
+                                                {data?.bio && (
+                                                    <p className='text-slate-600 text-sm mt-3 leading-relaxed max-w-xl'>
+                                                        {data?.bio}
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
                                         <DoctorsAbout name={data.name} about={data.about} qualifications={data.qualifications} experiences={data.experiences} />
                                     </div>
                                 )}
                                 {tab === 'appointments' && <Appointments appointments={data.appointments} />}
-                                {tab === 'chat' && <ViewChats />} {/* Render ViewChats component when 'chats' tab is active */}
+                                {tab === 'chat' && <ViewChats />}
                                 {tab === 'settings' && <Profile doctorData={data} />}
                             </div>
                         </div>

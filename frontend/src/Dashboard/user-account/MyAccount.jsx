@@ -39,87 +39,108 @@ const MyAccount = () => {
   };
 
   return (
-    <section>
-      <div className='max-w-[1170px] px-5 mx-auto'>
+    <section className="py-12 bg-slate-50/50 min-h-[calc(100vh-80px)]">
+      <div className='max-w-[1200px] px-4 sm:px-6 mx-auto'>
         {loading && !error && <Loading />}
         {error && !loading && <Error errMessage={error} />}
         {!loading && !error && (
-          <div className="grid md:grid-cols-3 gap-10">
-            <div className="pb-[50px] px-[30px] rounded-md">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xl text-center h-fit">
               <div className="flex items-center justify-center">
-                <figure className='w-[100px] h-[100px] rounded-full border-2 border-solid border-primaryColor'>
-                  <img src={userData.photo} alt="" className='w-full h-full rounded-full' />
+                <figure className='w-28 h-28 rounded-full border-4 border-primaryColor/20 shadow-md overflow-hidden'>
+                  <img src={userData.photo || userImg} alt="" className='w-full h-full object-cover' />
                 </figure>
               </div>
-              <div className="text-center mt-4">
-                <h3 className='text-[18px] leading-[30px] text-headingColor font-bold'>
+              <div className="mt-5">
+                <h3 className='text-[20px] font-[800] text-headingColor tracking-tight'>
                   {userData.name}
                 </h3>
+                <p className="text-slate-500 text-sm font-medium mt-1">
+                  {userData.email}
+                </p>
+
                 {userData.isPremiumUser ? (
-                  <span className="inline-block px-2 py-1 bg-yellow-500 text-white text-sm rounded-md">
-                    Premium User
-                  </span>
+                  <div className="mt-3">
+                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-amber-50 text-amber-700 text-xs font-bold rounded-full border border-amber-200">
+                      ⭐ Premium Member
+                    </span>
+                  </div>
                 ) : (
-                  <div>
-                    <p className="text-textColor text-[15px] leading-6 font-medium">
-                      Upgrade to Premium?
+                  <div className="mt-4 p-4 rounded-2xl bg-primaryColor/5 border border-primaryColor/10">
+                    <p className="text-headingColor text-xs font-semibold">
+                      Unlock AI Health Insights
                     </p>
                     <button
                       onClick={() => setIsUpgradeModalOpen(true)}
-                      className="mt-2 bg-[#181A1E] p-2 text-sm text-white rounded-md"
+                      className="mt-2 w-full py-2 text-xs font-bold text-white bg-primaryColor hover:bg-primaryDark transition-colors rounded-xl shadow-md shadow-primaryColor/20"
                     >
-                      Upgrade Now
+                      Upgrade to Premium
                     </button>
                   </div>
                 )}
-                <p className="text-textColor text-[15px] leading-6 font-medium">
-                  {userData.email}
-                </p>
-                <p className="text-textColor text-[15px] leading-6 font-medium">
-                  Blood Type:
-                  <span className="ml-2 text-headingColor text-[22px] leading-8">
+
+                <div className="mt-5 pt-5 border-t border-slate-100 flex items-center justify-between text-sm">
+                  <span className="text-slate-500 font-medium">Blood Type</span>
+                  <span className="font-bold text-headingColor px-2.5 py-0.5 rounded-lg bg-slate-100">
                     {userData.bloodType ? userData.bloodType : 'Not set'}
                   </span>
-                </p>
+                </div>
               </div>
-              <div className="mt-[50px] md:mt-[100px]">
-                <button onClick={handleLogout} className="w-full bg-[#181A1E] p-3 text-[16px] leading-7 rounded-md text-white">
+
+              <div className="mt-8 space-y-3">
+                <button
+                  onClick={handleLogout}
+                  className="w-full py-3 text-sm font-semibold rounded-2xl bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-md"
+                >
                   Logout
                 </button>
-                <button className="w-full bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md text-white">
-                  Delete account
+                <button className="w-full py-2.5 text-xs font-semibold rounded-2xl text-red-600 hover:bg-red-50 transition-colors">
+                  Delete Account
                 </button>
               </div>
             </div>
-            <div className="md:col-span-2 md:px-[30px]">
-              <div>
+
+            <div className="md:col-span-2 bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xl">
+              <div className="flex flex-wrap gap-2.5 pb-6 border-b border-slate-100">
                 <button
                   onClick={() => setTab('bookings')}
-                  className={` ${tab === 'bookings' && 'bg-primaryColor text-white font-normal'}
-            p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}
+                  className={`px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
+                    tab === 'bookings'
+                      ? 'bg-primaryColor text-white shadow-lg shadow-primaryColor/25'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
                 >
                   My Bookings
                 </button>
                 {userData.isPremiumUser && (
                   <button
                     onClick={() => setTab('insights')}
-                    className={` ${tab === 'insights' && 'bg-primaryColor text-white font-normal'}
-            p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}
+                    className={`px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
+                      tab === 'insights'
+                        ? 'bg-primaryColor text-white shadow-lg shadow-primaryColor/25'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
                   >
-                    View Insights (Only for Premium Users)
+                    AI Insights
                   </button>
                 )}
                 <button
                   onClick={() => setTab('settings')}
-                  className={` ${tab === 'settings' && 'bg-primaryColor text-white font-normal'} 
-            py-2 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}
+                  className={`px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
+                    tab === 'settings'
+                      ? 'bg-primaryColor text-white shadow-lg shadow-primaryColor/25'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
                 >
                   Profile Settings
                 </button>
               </div>
-              {tab === 'bookings' && <MyBookings />}
-              {tab === 'settings' && <Profile user={userData} />}
-              {tab === 'insights' && <Insights />}
+
+              <div className="mt-6">
+                {tab === 'bookings' && <MyBookings />}
+                {tab === 'settings' && <Profile user={userData} />}
+                {tab === 'insights' && <Insights />}
+              </div>
             </div>
           </div>
         )}

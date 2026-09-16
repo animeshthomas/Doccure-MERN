@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../config';
 import { toast } from 'react-toastify';
+import { BiLockAlt, BiArrowBack, BiCheckCircle } from 'react-icons/bi';
 import HashLoader from 'react-spinners/HashLoader.js';
 
 const ResetPassword = () => {
   const { resetToken } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     newPassword: '',
     confirmPassword: ''
@@ -13,10 +15,8 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Check if resetToken is valid
     if (!resetToken) {
-      // Handle invalid token, e.g., redirect to an error page
-      toast.error('Invalid reset token');
+      toast.error('Invalid or missing reset token');
     }
   }, [resetToken]);
 
@@ -26,6 +26,17 @@ const ResetPassword = () => {
 
   const submitHandler = async event => {
     event.preventDefault();
+
+    if (formData.newPassword !== formData.confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    if (formData.newPassword.length < 6) {
+      toast.error('Password must be at least 6 characters');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -44,58 +55,80 @@ const ResetPassword = () => {
       }
 
       setLoading(false);
-      toast.success(result.message);
+      toast.success(result.message || 'Password reset successful!');
+      navigate('/login');
 
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err.message || 'Failed to reset password');
       setLoading(false);
     }
   };
 
   return (
-    <section className="px-5 lg:px-0">
-      <div className="w-full max-w-[570px] mx-auto rounded-lg shadow-md md:p-10">
-        <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10 text-center">
-          Reset Your Password
-        </h3>
-
-        <form className="py-4 md:py-0" onSubmit={submitHandler}>
-          <div className="mb-5">
-            <input
-              type="password"
-              placeholder="New Password"
-              name="newPassword"
-              value={formData.newPassword}
-              onChange={handleInputChange}
-              className="w-full py-3 border-b border-solid border-[#0066ff61] 
-              focus:outline-none focus:border-b-primaryColor text-[16px] leading-7
-              text-headingColor placeholder:text-textColor cursor-pointer"
-              required
-            />
+    <section className="py-16 lg:py-24 bg-gradient-to-b from-blue-50/50 via-white to-white flex items-center justify-center min-h-[calc(100vh-80px)]">
+      <div className="w-full max-w-[480px] mx-auto px-4">
+        <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-100 shadow-2xl animate-fadeIn">
+          <div className="text-center mb-8">
+            <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3.5 py-1.5 rounded-full inline-block mb-3">
+              Security
+            </span>
+            <h2 className="text-[26px] sm:text-[28px] font-[800] text-headingColor tracking-tight">
+              Create New Password
+            </h2>
+            <p className="text-slate-500 text-sm mt-1.5 leading-relaxed">
+              Please enter and confirm your new secure password.
+            </p>
           </div>
 
-          <div className="mb-5">
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
-              className="w-full py-3 border-b border-solid border-[#0066ff61] 
-              focus:outline-none focus:border-b-primaryColor text-[16px] leading-7
-              text-headingColor placeholder:text-textColor cursor-pointer"
-              required
-            />
-          </div>
+          <form onSubmit={submitHandler} className="space-y-5">
+            <div>
+              <label className="form__label">New Password</label>
+              <div className="relative flex items-center">
+                <BiLockAlt className="absolute left-3.5 text-slate-400 w-5 h-5" />
+                <input
+                  type="password"
+                  placeholder="Enter at least 6 characters"
+                  name="newPassword"
+                  value={formData.newPassword}
+                  onChange={handleInputChange}
+                  className="form__input pl-11"
+                  required
+                />
+              </div>
+            </div>
 
-          <div className="mt-7">
-            <button type="submit" className="w-full bg-primaryColor text-white text-[18px] 
-            leading-[30px] rounded-lg px-4 py-3">
-              {loading ? <HashLoader size={25} color="#fff" /> : "Reset Password"}
+            <div>
+              <label className="form__label">Confirm New Password</label>
+              <div className="relative flex items-center">
+                <BiLockAlt className="absolute left-3.5 text-slate-400 w-5 h-5" />
+                <input
+                  type="password"
+                  placeholder="Re-enter your password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  className="form__input pl-11"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn w-full py-3.5 mt-2 text-[15px]"
+            >
+              {loading ? <HashLoader size={20} color="#fff" /> : "Update Password"}
             </button>
-          </div>
 
-        </form>
+            <div className="pt-4 border-t border-slate-100 text-center">
+              <Link to='/login' className="inline-flex items-center gap-1.5 text-sm text-slate-600 hover:text-primaryColor font-semibold transition-colors">
+                <BiArrowBack className="w-4 h-4" />
+                <span>Return to Login</span>
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   );
