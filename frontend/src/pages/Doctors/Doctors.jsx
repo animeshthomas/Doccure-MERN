@@ -7,6 +7,7 @@ import Error from '../../components/Error/Error';
 import { BASE_URL } from '../../config';
 import { BiSearch } from 'react-icons/bi';
 import { FaUserMd } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const SPECIALTIES = ["All", "Surgeon", "Neurologist", "Dermatologist", "Cardiologist", "Pediatrician"];
 
@@ -36,8 +37,13 @@ const Doctors = () => {
   return (
     <>
       {/* Search Header Banner */}
-      <section className="bg-gradient-to-b from-blue-50/70 to-white py-12 lg:py-16">
-        <div className="container text-center max-w-[720px] mx-auto">
+      <section className="bg-gradient-to-b from-blue-50/70 via-white to-white py-12 lg:py-16 overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="container text-center max-w-[720px] mx-auto"
+        >
           <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3.5 py-1.5 rounded-full inline-block mb-3">
             Find Specialists
           </span>
@@ -47,7 +53,12 @@ const Doctors = () => {
           </p>
 
           {/* Search Input Bar */}
-          <div className="mt-8 bg-white p-2 rounded-2xl shadow-xl border border-slate-200/80 flex items-center justify-between gap-2 max-w-[580px] mx-auto transition-all focus-within:ring-4 focus-within:ring-primaryColor/10 focus-within:border-primaryColor">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mt-8 bg-white p-2 rounded-2xl shadow-xl border border-slate-200/80 flex items-center justify-between gap-2 max-w-[580px] mx-auto transition-all focus-within:ring-4 focus-within:ring-primaryColor/10 focus-within:border-primaryColor"
+          >
             <div className="flex items-center gap-3 pl-3 flex-grow">
               <BiSearch className="w-6 h-6 text-slate-400 flex-shrink-0" />
               <input
@@ -60,22 +71,24 @@ const Doctors = () => {
               />
             </div>
             <button 
-              className="bg-primaryColor hover:bg-primaryDark text-white px-6 py-3 rounded-xl font-semibold text-[15px] transition-all shadow-cardGlow hover:shadow-cardHover flex-shrink-0"
+              className="bg-primaryColor hover:bg-primaryDark text-white px-6 py-3 rounded-xl font-semibold text-[15px] transition-all shadow-cardGlow hover:shadow-cardHover flex-shrink-0 active:scale-95"
               onClick={handleSearch}
             >
               Search
             </button>
-          </div>
+          </motion.div>
 
           {/* Quick Specialty Filter Pills */}
           <div className="flex items-center justify-center flex-wrap gap-2 mt-6">
             {SPECIALTIES.map(spec => (
-              <button
+              <motion.button
                 key={spec}
-                className={`text-xs font-semibold px-3.5 py-1.5 rounded-full transition-all duration-200 ${
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`text-xs font-semibold px-3.5 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${
                   selectedSpecialty === spec
-                    ? "bg-primaryColor text-white shadow-sm"
-                    : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+                    ? "bg-primaryColor text-white shadow-cardGlow"
+                    : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 shadow-sm"
                 }`}
                 onClick={() => {
                   setSelectedSpecialty(spec);
@@ -84,14 +97,14 @@ const Doctors = () => {
                 }}
               >
                 {spec}
-              </button>
+              </motion.button>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Doctors Grid */}
-      <section className="py-12 bg-white">
+      <section className="py-12 bg-white min-h-[400px]">
         <div className="container">
           {loading && (
             <div className="py-16 flex justify-center">
@@ -102,7 +115,11 @@ const Doctors = () => {
           {error && <Error errMessage={error} />}
 
           {!loading && !error && filteredDoctors.length === 0 && (
-            <div className="text-center py-16 max-w-md mx-auto">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-16 max-w-md mx-auto"
+            >
               <div className="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4">
                 <FaUserMd className="w-8 h-8" />
               </div>
@@ -110,11 +127,11 @@ const Doctors = () => {
               <p className="text-slate-500 text-sm mt-2">
                 Try adjusting your search query or selecting a different medical specialization.
               </p>
-            </div>
+            </motion.div>
           )}
 
           {!loading && !error && filteredDoctors.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fadeIn">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {filteredDoctors.map(doctor => (
                 <DoctorCard key={doctor._id} doctor={doctor} />
               ))}
@@ -124,9 +141,15 @@ const Doctors = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-slate-50/50 py-16">
+      <section className="bg-slate-50/50 py-16 overflow-hidden">
         <div className="container">
-          <div className="text-center max-w-[500px] mx-auto mb-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-[500px] mx-auto mb-12"
+          >
             <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3 py-1 rounded-full">
               Patient Feedback
             </span>
@@ -134,7 +157,7 @@ const Doctors = () => {
             <p className="text__para">
               Real reviews and verified clinical experiences from individuals across the network.
             </p>
-          </div>
+          </motion.div>
           <Testimonial />
         </div>
       </section>

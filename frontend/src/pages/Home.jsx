@@ -16,6 +16,8 @@ import ServiceList from '../components/Services/ServiceList';
 import DoctorList from '../components/Doctors/DoctorList';
 import FaqList from '../components/Faq/FaqList';
 import Testimonial from '../components/Testimonial/Testimonial';
+import InfiniteMarquee from '../components/Common/InfiniteMarquee';
+import AnimatedCounter from '../components/Common/AnimatedCounter';
 
 const Home = () => {
   return (
@@ -70,19 +72,19 @@ const Home = () => {
               >
                 <div>
                   <h3 className="text-[32px] lg:text-[40px] font-[800] text-headingColor tracking-tight">
-                    30<span className="text-primaryColor">+</span>
+                    <AnimatedCounter to={30} /><span className="text-primaryColor">+</span>
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">Years Experience</p>
                 </div>
                 <div>
                   <h3 className="text-[32px] lg:text-[40px] font-[800] text-headingColor tracking-tight">
-                    15<span className="text-purpleColor">+</span>
+                    <AnimatedCounter to={15} /><span className="text-purpleColor">+</span>
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">Clinic Hubs</p>
                 </div>
                 <div>
                   <h3 className="text-[32px] lg:text-[40px] font-[800] text-headingColor tracking-tight">
-                    99<span className="text-emerald-500">%</span>
+                    <AnimatedCounter to={99} /><span className="text-emerald-500">%</span>
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">Patient Trust</p>
                 </div>
@@ -126,6 +128,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* =================== Infinite Auto-Scrolling Marquee ==================== */}
+      <InfiniteMarquee />
 
       {/* =================== Quick Action Steps ==================== */}
       <section className="bg-white overflow-hidden">
