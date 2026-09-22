@@ -6,9 +6,10 @@ import User from "../models/UserSchema.js";
 import Doctor from "../models/DoctorSchema.js";
 
 const generateToken = (user) => {
+  const jwtSecret = process.env.JWT_SECRET_KEY || process.env.JWT_SECRET || "doccure_default_jwt_secret_key_2026";
   return jwt.sign(
     { id: user._id, role: user.role },
-    process.env.JWT_SECRET_KEY,
+    jwtSecret,
     {
       expiresIn: "15d",
     }

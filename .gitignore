@@ -1,4 +1,10 @@
-backend\.env
-backend\node_modules
-frontend\.env.local
-frontend\node_modules
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+backend/.env
+backend/.env.local
+backend/venv*
+frontend/.env
+frontend/.env.local
+.DS_Store
+*.log
