@@ -14,7 +14,8 @@ export const authenticate = async (req, res, next) => {
     console.log(authToken)
     const token = authToken.split(" ")[1];
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const jwtSecret = process.env.JWT_SECRET_KEY || process.env.JWT_SECRET || "doccure_default_jwt_secret_key_2026";
+    const decoded = jwt.verify(token, jwtSecret);
 
     req.userId = decoded.id;
     req.role = decoded.role;
