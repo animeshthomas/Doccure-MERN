@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { BsArrowRight, BsShieldCheck, BsClockHistory, BsCameraVideoFill } from "react-icons/bs";
 import { FaUserMd, FaHospital, FaCalendarCheck } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 import heroImg01 from "../assets/images/hero-img01.png"
 import heroImg02 from "../assets/images/hero-img02.png"
@@ -28,7 +29,12 @@ const Home = () => {
         <div className="container">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center justify-between">
             {/* Hero Left Content */}
-            <div className="lg:w-1/2 animate-fadeIn">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:w-1/2"
+            >
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primaryColor/10 border border-primaryColor/20 text-primaryColor font-semibold text-xs tracking-wide uppercase mb-6">
                 <BsShieldCheck className="w-4 h-4" /> Certified Medical Excellence
               </div>
@@ -56,7 +62,12 @@ const Home = () => {
               </div>
 
               {/* Stats Counters */}
-              <div className="mt-12 pt-8 border-t border-slate-200/60 grid grid-cols-3 gap-4 sm:gap-8 max-w-[500px]">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-12 pt-8 border-t border-slate-200/60 grid grid-cols-3 gap-4 sm:gap-8 max-w-[500px]"
+              >
                 <div>
                   <h3 className="text-[32px] lg:text-[40px] font-[800] text-headingColor tracking-tight">
                     30<span className="text-primaryColor">+</span>
@@ -75,11 +86,16 @@ const Home = () => {
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">Patient Trust</p>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Hero Right Images Composition */}
-            <div className="lg:w-1/2 flex items-center justify-center relative">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="lg:w-1/2 flex items-center justify-center relative"
+            >
               <div className="grid grid-cols-2 gap-4 max-w-[500px]">
                 <div className="space-y-4">
                   <div className="overflow-hidden rounded-3xl shadow-xl hover-lift">
@@ -106,15 +122,21 @@ const Home = () => {
                   <p className="text-sm font-bold text-headingColor">Instant Consultations</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* =================== Quick Action Steps ==================== */}
-      <section className="bg-white">
+      <section className="bg-white overflow-hidden">
         <div className="container">
-          <div className="text-center max-w-[580px] mx-auto mb-14">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-[580px] mx-auto mb-14"
+          >
             <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3 py-1 rounded-full">
               Easy 3-Step Process
             </span>
@@ -122,16 +144,23 @@ const Home = () => {
             <p className="text__para">
               Experience seamless healthcare delivery from specialist discovery to digital consultations.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Step 1 */}
-            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover-lift text-center group flex flex-col justify-between">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-cardHover text-center group flex flex-col justify-between transition-all duration-300"
+            >
               <div>
-                <div className="w-20 h-20 rounded-2xl bg-blue-50 text-primaryColor flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-primaryColor group-hover:text-white transition-all duration-300">
+                <div className="w-20 h-20 rounded-2xl bg-blue-50 text-primaryColor flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-primaryColor group-hover:text-white transition-all duration-300 shadow-sm">
                   <FaUserMd className="w-9 h-9" />
                 </div>
-                <h3 className="text-[22px] font-[700] text-headingColor mb-3">1. Find a Doctor</h3>
+                <h3 className="text-[22px] font-[700] text-headingColor mb-3 group-hover:text-primaryColor transition-colors">1. Find a Doctor</h3>
                 <p className="text-[15px] leading-6 text-textColor">
                   Search across top-rated specialists filtered by expertise, availability, patient ratings, and location.
                 </p>
@@ -145,15 +174,22 @@ const Home = () => {
                   <BsArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
-            </div>
+            </motion.div>
 
             {/* Step 2 */}
-            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover-lift text-center group flex flex-col justify-between">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-cardHover text-center group flex flex-col justify-between transition-all duration-300"
+            >
               <div>
-                <div className="w-20 h-20 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                <div className="w-20 h-20 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300 shadow-sm">
                   <FaHospital className="w-9 h-9" />
                 </div>
-                <h3 className="text-[22px] font-[700] text-headingColor mb-3">2. Choose Location</h3>
+                <h3 className="text-[22px] font-[700] text-headingColor mb-3 group-hover:text-amber-600 transition-colors">2. Choose Location</h3>
                 <p className="text-[15px] leading-6 text-textColor">
                   Select your preferred local clinic or opt for instant virtual tele-consultations from the comfort of home.
                 </p>
@@ -167,15 +203,22 @@ const Home = () => {
                   <BsArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
-            </div>
+            </motion.div>
 
             {/* Step 3 */}
-            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover-lift text-center group flex flex-col justify-between">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-cardHover text-center group flex flex-col justify-between transition-all duration-300"
+            >
               <div>
-                <div className="w-20 h-20 rounded-2xl bg-purple-50 text-purpleColor flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-purpleColor group-hover:text-white transition-all duration-300">
+                <div className="w-20 h-20 rounded-2xl bg-purple-50 text-purpleColor flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-purpleColor group-hover:text-white transition-all duration-300 shadow-sm">
                   <FaCalendarCheck className="w-9 h-9" />
                 </div>
-                <h3 className="text-[22px] font-[700] text-headingColor mb-3">3. Book Appointment</h3>
+                <h3 className="text-[22px] font-[700] text-headingColor mb-3 group-hover:text-purpleColor transition-colors">3. Book Appointment</h3>
                 <p className="text-[15px] leading-6 text-textColor">
                   Reserve appointment slots with instant confirmation, digital payment processing, and calendar sync.
                 </p>
@@ -189,7 +232,7 @@ const Home = () => {
                   <BsArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -198,9 +241,15 @@ const Home = () => {
       <About />
 
       {/* =================== Medical Services Section ==================== */}
-      <section className="bg-slate-50/50">
+      <section className="bg-slate-50/50 overflow-hidden">
         <div className="container">
-          <div className="text-center max-w-[580px] mx-auto mb-14">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-[580px] mx-auto mb-14"
+          >
             <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3 py-1 rounded-full">
               Comprehensive Care
             </span>
@@ -208,18 +257,24 @@ const Home = () => {
             <p className="text__para">
               From routine wellness diagnostics to advanced clinical treatments, our medical network covers every specialization.
             </p>
-          </div>
+          </motion.div>
 
           <ServiceList />
         </div>
       </section>
 
       {/* =================== Virtual Treatment Feature ==================== */}
-      <section className="bg-white">
+      <section className="bg-white overflow-hidden">
         <div className="container">
           <div className="flex items-center justify-between flex-col lg:flex-row gap-12 lg:gap-16">
             {/* Feature Left Content */}
-            <div className="lg:w-1/2">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:w-1/2"
+            >
               <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3 py-1 rounded-full">
                 Telehealth & Remote Care
               </span>
@@ -247,10 +302,16 @@ const Home = () => {
                   <button className="btn">Get Started Now</button>
                 </Link>
               </div>
-            </div>
+            </motion.div>
 
             {/* Feature Right Image + Card */}
-            <div className="lg:w-1/2 relative flex justify-center">
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:w-1/2 relative flex justify-center"
+            >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-[480px]">
                 <img src={featureImg} className="w-full object-cover" alt="Doctor providing remote consultation" />
 
@@ -275,15 +336,21 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* =================== Featured Doctors ==================== */}
-      <section className="bg-slate-50/50">
+      <section className="bg-slate-50/50 overflow-hidden">
         <div className="container">
-          <div className="text-center max-w-[580px] mx-auto mb-14">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-[580px] mx-auto mb-14"
+          >
             <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3 py-1 rounded-full">
               Experienced Physicians
             </span>
@@ -291,23 +358,35 @@ const Home = () => {
             <p className="text__para">
               Connect with top-rated medical practitioners specialized across clinical disciplines.
             </p>
-          </div>
+          </motion.div>
 
           <DoctorList />
         </div>
       </section>
 
       {/* =================== FAQ Section ==================== */}
-      <section className="bg-white">
+      <section className="bg-white overflow-hidden">
         <div className="container">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            <div className="w-full lg:w-1/2 hidden md:block">
+            <motion.div 
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7 }}
+              className="w-full lg:w-1/2 hidden md:block"
+            >
               <div className="rounded-3xl overflow-hidden shadow-lg hover-lift max-w-[480px] mx-auto">
                 <img src={faqImg} alt="Doctor with patient question" className="w-full object-cover" />
               </div>
-            </div>
+            </motion.div>
 
-            <div className="w-full lg:w-1/2">
+            <motion.div 
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7 }}
+              className="w-full lg:w-1/2"
+            >
               <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3 py-1 rounded-full">
                 Help & Answers
               </span>
@@ -316,15 +395,21 @@ const Home = () => {
               </h2>
 
               <FaqList />
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* =================== Testimonial Section ==================== */}
-      <section className="bg-slate-50/50">
+      <section className="bg-slate-50/50 overflow-hidden">
         <div className="container">
-          <div className="text-center max-w-[580px] mx-auto mb-14">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-[580px] mx-auto mb-14"
+          >
             <span className="text-primaryColor font-semibold text-xs tracking-wider uppercase bg-primaryColor/10 px-3 py-1 rounded-full">
               Patient Stories
             </span>
@@ -332,7 +417,7 @@ const Home = () => {
             <p className="text__para">
               Trusted by thousands of individuals and families worldwide for their health and wellness needs.
             </p>
-          </div>
+          </motion.div>
 
           <Testimonial />
         </div>

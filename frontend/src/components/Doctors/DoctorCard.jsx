@@ -2,12 +2,20 @@ import React from 'react'
 import starIcon from "../../assets/images/Star.png"
 import { Link } from "react-router-dom"
 import { BsArrowRight } from 'react-icons/bs'
+import { motion } from 'framer-motion'
 
 const DoctorCard = ({ doctor }) => {
   const { name, averageRating, totalRating, photo, specialization, experiences } = doctor
 
   return (
-    <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-100 shadow-sm hover-lift transition-all duration-300 group flex flex-col justify-between">
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ y: -6, transition: { duration: 0.2 } }}
+      className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-cardHover transition-all duration-300 group flex flex-col justify-between"
+    >
       <div>
         <div className="relative overflow-hidden rounded-xl bg-slate-100 aspect-[4/3] sm:aspect-square mb-4">
           <img 
@@ -58,7 +66,7 @@ const DoctorCard = ({ doctor }) => {
           <BsArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

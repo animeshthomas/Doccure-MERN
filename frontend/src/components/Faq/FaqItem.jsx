@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
+import { motion, AnimatePresence } from "framer-motion"
 
 const FaqItem = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -9,11 +10,15 @@ const FaqItem = ({ item }) => {
   }
 
   return (
-    <div 
-      className={`p-5 lg:p-6 rounded-2xl border transition-all duration-300 mb-4 cursor-pointer ${
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.4 }}
+      className={`p-5 lg:p-6 rounded-2xl border transition-all duration-300 mb-4 cursor-pointer select-none ${
         isOpen 
           ? "bg-white border-primaryColor/30 shadow-md ring-2 ring-primaryColor/5" 
-          : "bg-white/60 hover:bg-white border-slate-200 shadow-sm"
+          : "bg-white/60 hover:bg-white border-slate-200/80 shadow-sm"
       }`}
       onClick={toggleAccordion}
     >
@@ -32,14 +37,24 @@ const FaqItem = ({ item }) => {
         </div>
       </div>
 
-      {isOpen && (
-        <div className="mt-4 pt-3 border-t border-slate-100 animate-slideDown">
-          <p className="text-[15px] leading-7 font-[400] text-textColor">
-            {item.content}
-          </p>
-        </div>
-      )}
-    </div>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="mt-4 pt-3 border-t border-slate-100">
+              <p className="text-[15px] leading-7 font-[400] text-textColor">
+                {item.content}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   )
 }
 
